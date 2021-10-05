@@ -1,4 +1,4 @@
-# Group #21
+# Group #21 [![Build Status](https://app.travis-ci.com/cs107-zapn/cs107-FinalProject.svg?token=7wzsVrVWYyJpvzchiqyh&branch=main)](https://app.travis-ci.com/cs107-zapn/cs107-FinalProject)
 CS107 Project Team ZAPN
 
 Group Members:
