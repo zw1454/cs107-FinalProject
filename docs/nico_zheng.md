@@ -34,7 +34,7 @@ If you are interested in the evaluation of the derivative of some function with 
     obj = x * ad.sin(x) + ad.cos(y**2)
     obj.der()[0]
 
-The above code snippit will return the evaluation of the derivative `x * ad.sin(x) + ad.cos(y**2)` with respect to `x` when `x` is 1 and `y` is 2. Which is the same as solving for $\frac{\partial obj}{\partial x}(1,2)$.
+The above code snippit will return the evaluation of the derivative `x * ad.sin(x) + ad.cos(y**2)` with respect to `x` when `x` is 1 and `y` is 2. Which is the same as solving for <a href="https://www.codecogs.com/eqnedit.php?latex=\frac{\partial&space;obj}{\partial&space;x}(1,2)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\frac{\partial&space;obj}{\partial&space;x}(1,2)" title="\frac{\partial obj}{\partial x}(1,2)" /></a>.
 
 ## Software Orginization
 
