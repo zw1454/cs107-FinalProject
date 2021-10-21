@@ -56,7 +56,6 @@ cs107-FinalProject
     |   overLoad.py
     |   dualNumbers.py
     |   variable.py
-
 ```
 
 ### Modules
@@ -83,6 +82,7 @@ We do not plan on using a framework for this package because frameworks are ofte
 In case that we will have to explicitly show a computation graph, we will use a dictionary to store graph structure. To implicitly define this computation graph, we will use the dual number data structure to represent different nodes in the graph. The real part of the dual number will be represent the current evaluation value, and each dual part of the dual number will represent the current derivative. The transition from one node to the next node is achieved by overloading the dual number class via one of the elementary operations.
 
 ### Classes
+
  - Variables - A class that contains several dual number classes based on user's specification. The number of dual numbers contained is the number of variables used to form the objective function. 
  - DualNumbers - A class that mimics the behavior of a node in the computational graph. When initialized, a dual number class is a single variable with user specified value.
  - AD - Abstract class for user to implement AD (either forward mode or backward mode).
@@ -90,16 +90,23 @@ In case that we will have to explicitly show a computation graph, we will use a 
  - BackwardMode - Abstract class to implement backward mode.
 
 
- ### Methods and Name Attributes
+### Methods and Name Attributes
 
-We plan to overload all elementary functions to handle dual number computation and work with functions like $cos$, $sin$, $tan$ $sqrt$, $power$ $log$, $exp$, and probably more.
+The DualNumbers class will contain the following methods and attributes. We plan to overload all elementary operations to handle dual number computation under DualNumbers.
+ - `__init__` will initialize the current value to be the user specified initial value via `self.value`. It will also set the initial derivative via `self.der = 1`.
+ - `__add__` will add the values and derivatives by creating a new dual number class with updated attributes.
+ - `__radd__` will handle the case of constant addition with a dual number.
+ - `__mul__` will multiply the values and mimic the product derivative rule for derivatives by creating a new dual number class with updated attributes.
+ - `__rmul__` will handle the case of constant multiplication with a dual number.
+ - `__truediv__` will divide the values and mimic the division derivative rule for derivatives by creating a new dual number class with updated attributes.
+ - `__pow__` will give the power of the values and mimic the power derivative rule for derivatives by creating a new dual number class with updated attributes.
 
-For AD it would be a short method to figure out if its foward or backward node and pass it to the foward or backward mode class implementations.
+For AD it would be a short method to figure out if it is using forward or backward mode and pass it to the forward or backward mode class implementations.
 
-Within the foward and backward node classes:
- - Method to make the compuational graph
+(Tentative) Within the foward and backward node classes:
+ - Method to make the computational graph
  - method to iterate over the compuational graph
- - method to eval that nodes value (str8 up or derivative version)
+ - method to evaluate that nodes value (str8 up or derivative version)
 
 
  ### Dependencies
@@ -108,3 +115,8 @@ Within the foward and backward node classes:
 
  ### Elementary Functions
 
+To have elementary functions work on our dual number objects, we will implement them under overLoad.py so that they are now callable in the form of ad.function_name. The implementation of elementary functions will have dependency on numpy and return a new dual number object according to the rule we saw in class that evaluates a dual number. The following elementary functions will be included:
+ - `ad.sin(x)`, `ad.cos(x)`, `ad.tan(x)`
+ - `ad.arcsin(x)`, `ad.arccos(x)`, `ad.arctan(x)`
+ - `ad.exp(x)`, `ad.log(x)`
+ - `ad.pow(x, n)`
