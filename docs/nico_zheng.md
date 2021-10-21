@@ -83,7 +83,7 @@ In case that we will have to explicitly show a computation graph, we will use a 
 
 ### Classes
 
- - Variables - A class that contains several dual number classes based on user's specification. The number of dual numbers contained is the number of variables used to form the objective function. 
+ - Variables - A class that contains several dual number classes based on user's specification. This is to handle the case when the objective function is multivariate. The number of dual numbers contained is the number of variables used to form the objective function. 
  - DualNumbers - A class that mimics the behavior of a node in the computational graph. When initialized, a dual number class is a single variable with user specified value.
  - AD - Abstract class for user to implement AD (either forward mode or backward mode).
  - ForwardMode - Abstract class to implement forward mode.
@@ -116,7 +116,12 @@ For AD it would be a short method to figure out if it is using forward or backwa
  ### Elementary Functions
 
 To have elementary functions work on our dual number objects, we will implement them under overLoad.py so that they are now callable in the form of ad.function_name. The implementation of elementary functions will have dependency on numpy and return a new dual number object according to the rule we saw in class that evaluates a dual number. The following elementary functions will be included:
- - `ad.sin(x)`, `ad.cos(x)`, `ad.tan(x)`
- - `ad.arcsin(x)`, `ad.arccos(x)`, `ad.arctan(x)`
- - `ad.exp(x)`, `ad.log(x)`
+ - `ad.sin(x)`
+ - `ad.cos(x)`
+ - `ad.tan(x)`
+ - `ad.arcsin(x)`
+ - `ad.arccos(x)`
+ - `ad.arctan(x)`
+ - `ad.exp(x)`
+ - `ad.log(x)`
  - `ad.pow(x, n)`
