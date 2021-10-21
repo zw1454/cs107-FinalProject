@@ -80,13 +80,14 @@ We do not plan on using a framework for this package because frameworks are ofte
 
 ### Data Structures
 
-Because we know that we will have to implicietly define a computational graph,we will use a dictionaireis to store graph structure. Each key of the node would be a trace, and each value would have a list of triples that consists of the evaluation value, the elementary function, and the next node.
+In case that we will have to explicitly show a computation graph, we will use a dictionary to store graph structure. To implicitly define this computation graph, we will use the dual number data structure to represent different nodes in the graph. The real part of the dual number will be represent the current evaluation value, and each dual part of the dual number will represent the current derivative. The transition from one node to the next node is achieved by overloading the dual number class via one of the elementary operations.
 
 ### Classes
- - Dual Numbers - A class that handles operations concerning dual numbers.
- - AD - Abstract class for user to implement AD (either fowardmode or backward mode).
- - FowardMode - Abstract class to implement foward mode.
- - BackwardMode - Abstract calss toimplement backaward mode.
+ - Variables - A class that contains several dual number classes based on user's specification. The number of dual numbers contained is the number of variables used to form the objective function. 
+ - DualNumbers - A class that mimics the behavior of a node in the computational graph. When initialized, a dual number class is a single variable with user specified value.
+ - AD - Abstract class for user to implement AD (either forward mode or backward mode).
+ - ForwardMode - Abstract class to implement forward mode.
+ - BackwardMode - Abstract class to implement backward mode.
 
 
  ### Methods and Name Attributes
@@ -104,4 +105,6 @@ Within the foward and backward node classes:
  ### Dependencies
 
  We will rely on numpy to handle vector computations associated with multivariable AD. The user can easily install and check dependencies using requirements.txt in the project main directory. 
+
+ ### Elementary Functions
 
