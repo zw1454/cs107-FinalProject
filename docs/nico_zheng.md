@@ -1,3 +1,6 @@
+## Introduction
+The main goal is to develop a software library where we can use computational methods to compute derivatives that would otherwise be costly or unstable to evaluate. Namely, we will implement automatic differentation (AD). We will implement both the forward mode and also the reverse mode. AD methods are more efficient than numerical and estimation techniques and, as was discussed in lecture, are widely applicable across a range of fields. 
+
 ## How to Use zapnAD
 
 ### Installation:
@@ -36,7 +39,7 @@ If you are interested in the evaluation of the derivative of some function with 
 
 The above code snippit will return the evaluation of the derivative `x * ad.sin(x) + ad.cos(y**2)` with respect to `x` when `x` is 1 and `y` is 2. Which is the same as solving for <a href="https://www.codecogs.com/eqnedit.php?latex=\frac{\partial&space;obj}{\partial&space;x}(1,2)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\frac{\partial&space;obj}{\partial&space;x}(1,2)" title="\frac{\partial obj}{\partial x}(1,2)" /></a>.
 
-## Software Orginization
+## Software Organization
 
 ### Directory Structure
 The directory structure for the final project is as follows:
@@ -134,3 +137,8 @@ To have elementary functions work on our dual number objects, we will implement 
  - `ad.exp(x)`
  - `ad.log(x)`
  - `ad.pow(x, n)`
+
+## Licensing
+We have decided to choose the GNU General Public License. We chose this license because it is a copyleft license.  Copyleft allows users to use and modify our software and, as stated on the GNU GPL website, says that "anyone who redistributes the software, with or without changes, must pass along the freedom to further copy and change it." As beneficiaries of free software, we would like to makes ours free as well. 
+
+More on this particular license can be found here: https://www.gnu.org/licenses/gpl-3.0.html 
