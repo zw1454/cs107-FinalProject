@@ -1,5 +1,5 @@
 # Introduction: 
-The main goal is to develop a software library where we can use computational methods to compute derivatives that would otherwise be costly or unstable to evaluate. Namely, we will implement automatic differentation (AD). We will implement both the forward mode and also the reverse mode. AD methods are much more efficient than  numerical and estimation techniques.  
+The main goal is to develop a software library where we can use computational methods to compute derivatives that would otherwise be costly or unstable to evaluate. Namely, we will implement automatic differentation (AD). We will implement both the forward mode and also the reverse mode. AD methods are more efficient than  numerical and estimation techniques and, as was discussed in lecture, are widely applicable across a range of fields. 
 
 # Licensing:
 We have decided to choose the GNU General Public License. We chose this license because it is a copyleft license.  Copyleft allows users to use and modify our software and, as stated on the GNU GPL website, says that "anyone who redistributes the software, with or without changes, must pass along the freedom to further copy and change it." As beneficiaries of free software, we would like to makes ours free as well. 
