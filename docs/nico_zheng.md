@@ -8,7 +8,7 @@
 First, import the the package and initialize the number of variables.
 
     import zapnAD as ad
-    variables = ad.init_variables(1)
+    variables = ad.init_variables(n = 1, value = 2)
 
 You can access the variables directly, or choose to relabel them to use in future equations. For example:
 
@@ -22,8 +22,8 @@ Notice, we use `ad.sin` to denote `sin`. We also have similar elementary functio
 
 Now, that we have some objective function, we can do two things. We can evaluate the function at some `value`, or we can evaluate the derivative of the function at some `value`.
 
-    obj.eval(1)
-    obj.der(2)
+    obj.eval()
+    obj.der()
 
 ### Multi-Variable Derivatives
 
@@ -42,32 +42,39 @@ The above code snippit will return the evaluation of the derivative `x * ad.sin(
 The directory structure for the final project is as follows:
 
 ```
-cs107-FinalProject
+cs107-FinalProject/
 │   README.md
-│   LICENSE  
-|   requirements.txt
+│   LICENSE
+|   setup.cfg
+|   pyproject.toml
 │
-└───docs
+└───docs/
 │   │   documentation.md
 |
-└───zapnAD
-    │   __init__.py
-    │   AD.py
-    |   overLoad.py
-    |   dualNumbers.py
-    |   variable.py
+└───src/
+|   |
+|   └───zapnAD/
+|       |   __init__.py
+|       │   AD.py
+|       |   overLoad.py
+|       |   dualNumbers.py
+|       |   variable.py
+|
+└───tests/
+
 ```
 
 ### Modules
 
 Each module will server the following purpose:
- - AD.py - implement automatic differentiation foward and backward.
- - overLoad.py - overloads all elementary functions.
- - variable.py - contains abstract class for variables
+ - AD.py - This module implements automatic differentiation forward and reverse mode.
+ - overLoad.py - This module will overload all elementary functions.
+ - variable.py - This module will contain the abstract class for handling variables in different equations.
+ - dualNumbers.py - This module will contain the abstract class for handling dualNumbers.
 
 ### Test Suite
 
-We plan to use TravisCI and CodeCov. CodeCov will help us track which lines of code are executed by the test suite. With travis CI we can automatically build and test code changes with each change to the package.
+We will use pytest and pytest-cov for testing and coverage respectively. We plan to use TravisCI and CodeCov for continuous integration. 
 
 ### Distribution and Packaging 
 
@@ -113,7 +120,7 @@ For AD it would be a short method to figure out if it is using forward or revers
 
  ### Dependencies
 
- We will rely on numpy to handle vector computations associated with multivariable AD as well as overloading the elementary functions outlined below. The user can easily install and check dependencies using requirements.txt in the project main directory. 
+ We will rely on numpy to handle vector computations associated with multivariable AD as well as overloading the elementary functions outlined below. We will specify the dependencies for the package in setup.cfg. 
 
  ### Elementary Functions
 
