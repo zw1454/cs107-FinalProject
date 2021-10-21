@@ -87,21 +87,23 @@ In case that we will have to explicitly show a computation graph, we will use a 
  - DualNumbers - A class that mimics the behavior of a node in the computational graph. When initialized, a dual number class is a single variable with user specified value.
  - AD - Abstract class for user to implement AD (either forward mode or backward mode).
  - ForwardMode - Abstract class to implement forward mode.
- - BackwardMode - Abstract class to implement backward mode.
+ - ReverseMode - Abstract class to implement reverse mode.
 
 
 ### Methods and Name Attributes
 
 The DualNumbers class will contain the following methods and attributes. We plan to overload all elementary operations to handle dual number computation under DualNumbers.
- - `__init__` will initialize the current value to be the user specified initial value via `self.value`. It will also set the initial derivative via `self.der = 1`.
- - `__add__` will add the values and derivatives by creating a new dual number class with updated attributes.
- - `__radd__` will handle the case of constant addition with a dual number.
- - `__mul__` will multiply the values and mimic the product derivative rule for derivatives by creating a new dual number class with updated attributes.
- - `__rmul__` will handle the case of constant multiplication with a dual number.
- - `__truediv__` will divide the values and mimic the division derivative rule for derivatives by creating a new dual number class with updated attributes.
- - `__pow__` will give the power of the values and mimic the power derivative rule for derivatives by creating a new dual number class with updated attributes.
+ - `__init__(self, value)` will initialize the current value to be the user specified initial value via `self.value`. It will also set the initial derivative via `self.der = 1`.
+ - `__add__(self, other)` will add the values and derivatives by creating a new dual number class with updated attributes.
+ - `__radd__(self, other)` will handle the case of constant addition with a dual number.
+ - `__mul__(self, other)` will multiply the values and mimic the product derivative rule for derivatives by creating a new dual number class with updated attributes.
+ - `__rmul__(self, other)` will handle the case of constant multiplication with a dual number.
+ - `__truediv__(self, other)` will divide the values and mimic the division derivative rule for derivatives by creating a new dual number class with updated attributes.
+ - `__pow__(self, other)` will give the power of the values and mimic the power derivative rule for derivatives by creating a new dual number class with updated attributes.
 
-For AD it would be a short method to figure out if it is using forward or backward mode and pass it to the forward or backward mode class implementations.
+For AD it would be a short method to figure out if it is using forward or reverse mode and pass it to the forward or backward mode class implementations.
+ - `forward()`: Use forward mode to evaluete the derivative of the objective function.
+ - `reverse()`: Use reverse mode to evaluete the derivative of the objective function.
 
 (Tentative) Within the foward and backward node classes:
  - Method to make the computational graph
@@ -111,7 +113,7 @@ For AD it would be a short method to figure out if it is using forward or backwa
 
  ### Dependencies
 
- We will rely on numpy to handle vector computations associated with multivariable AD. The user can easily install and check dependencies using requirements.txt in the project main directory. 
+ We will rely on numpy to handle vector computations associated with multivariable AD as well as overloading the elementary functions outlined below. The user can easily install and check dependencies using requirements.txt in the project main directory. 
 
  ### Elementary Functions
 
