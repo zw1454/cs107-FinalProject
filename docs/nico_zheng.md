@@ -18,7 +18,7 @@ Where `x` is just a refrence to `variables[0]` that you can use later. Now,let's
 
     obj = ad.sin(x)
 
-Notice, we use `ad.sin` to denote the $sin$. We also have similar elementary functions like $cos$, $sqrt$, $log$... etc overloaded for the purposes of automatic differentiation. Check the [docs](google.com) for a complete list of elementary functions included in zapnAD.
+Notice, we use `ad.sin` to denote `sin`. We also have similar elementary functions like `cos`, `sqrt`, `log`... etc overloaded for the purposes of automatic differentiation. Check the [docs](google.com) for a complete list of elementary functions included in zapnAD.
 
 Now, that we have some objective function, we can do two things. We can evaluate the function at some `value`, or we can evaluate the derivative of the function at some `value`.
 
