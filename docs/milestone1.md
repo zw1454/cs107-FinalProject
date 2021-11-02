@@ -1,5 +1,9 @@
 ## Introduction
-The main goal is to develop a software library where we can use computational methods to compute derivatives that would otherwise be costly or unstable to evaluate. Namely, we will implement automatic differentation (AD). We will implement both the forward mode and also the reverse mode. AD methods are more efficient than numerical and estimation techniques and, as was discussed in lecture, are widely applicable across a range of fields. 
+The main goal is to develop a software library where we can use computational methods to compute derivatives that would otherwise be costly or unstable to evaluate. Namely, we will implement automatic differentation (AD). We will implement both the forward mode and also the reverse mode. AD methods are more efficient than numerical and estimation techniques and, as was discussed in lecture, are widely applicable across a range of fields.
+
+Our work is significant mainly in two aspects. Firstly, the client's need of computing derivative for real-world applications is high, which has been a long tradtion in the applied sciences domains like mechanical engineering and mathematical physics. Moreover, the recent advances in data science and machine learning enables more sophisticated models like deep neural networks, whose large number of parameters require more efficient algorithm like back-propagation to compute and update the gradients. With our AD library, researchers in these fields will be able to efficiently compute the gradient through a simple and interactive user interface.
+
+Secondly, although many software packages support numerical approaches like Newton's method and finite-element method, they often lack numerical accuracy due to approximation and are computationally expensive. Our AD approach overcomes these issues by efficiently computing the exact, symbolic form of the derivative, which is crucial for real-world engineering problems.
 
 ## Background
 
@@ -187,3 +191,11 @@ To have elementary functions work on our dual number objects, we will implement 
 We have decided to choose the GNU General Public License. We chose this license because it is a copyleft license.  Copyleft allows users to use and modify our software and, as stated on the GNU GPL website, says that "anyone who redistributes the software, with or without changes, must pass along the freedom to further copy and change it." As beneficiaries of free software, we would like to makes ours free as well. 
 
 More on this particular license can be found here: https://www.gnu.org/licenses/gpl-3.0.html 
+
+## Feedback
+### Milestone 1
+ - Introduction: good Introduction. However, the point of the introduction is more oriented towards being able to motivate AD and its application and science. It's designed to answer the question why does your work matter. (-1) 
+ - `Our update: Please see the updated introduction part on the top of the document, where we talked more about the significance of our AD library in two aspects.`
+ - Background: I really love your Background, I understand what is at stake and how you are going to leverage the differentiation properties in order to simplify the differentiation of big and cool functions. 
+ - How to use: Very clear, I like the way you thought through such detailed use cases in order to apprehend everything. 
+ - Implementation: straightforward, you have a very good sense of how things should be implemented.  You should not push directly code to the main branch. Use Pull requests
