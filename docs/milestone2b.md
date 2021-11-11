@@ -10,7 +10,7 @@
   
 - Zheng:
   
-### Milestone 2 Task Orginization 
+### Milestone 2 Task Organization 
 
 - Arno:
 
