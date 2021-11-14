@@ -1,12 +1,10 @@
-from typing import List
-
 class Variable:
     def __init__(self, value) -> None:
         self.val = value
         self.der = 1
     
     def __mul__(self, other):
-        # Product derivative rule for two function types
+        # Product derivative rule for two Variable types
         try:
             new_f = Variable(self.val * other.val)
             new_f.der = self.der * other.val + self.val * other.der
@@ -20,7 +18,7 @@ class Variable:
         return self.__mul__(other)
     
     def __add__(self, other):
-        # Sum of derivatives for two function types
+        # Sum of derivatives for two Variable types
         try:
             new_f = Variable(self.val + other.val)
             new_f.der = self.der + other.der
@@ -40,17 +38,18 @@ class Variable:
 
 
 class Variables:
-    def __init__(self, n) -> None:
+    def __init__(self, n):
         self.n = n
     
-    def set_values(self, values: List[float]) -> List[Variable]:
+    def set_values(self, values):
         assert len(values) == self.n, 'Dimension Mismatch!'
         return [Variable(value) for value in values]
 
 
 if __name__ == '__main__':
-    x = Variables(n=1).set_values(values=[3])[0]
-    y = (x + x ** 2)
+    variables = Variables(n=1).set_values(values=[3]) # List of object Variable
+    x = variables[0]
+    y = (2 * x + x ** 2)
     print(y.der)
     print(y.val)
     print((y ** 2).der)
