@@ -6,11 +6,11 @@ class Variable:
         self.der = 1
     
     def __mul__(self, other):
-        # product derivative rule for two function types
+        # Product derivative rule for two function types
         try:
             new_f = Variable(self.val * other.val)
             new_f.der = self.der * other.val + self.val * other.der
-        # when other is a real number (alpha)
+        # When other is a real number
         except AttributeError:
             new_f = Variable(self.val * other)
             new_f.der = self.der * other
@@ -20,11 +20,11 @@ class Variable:
         return self.__mul__(other)
     
     def __add__(self, other):
-        # sum of derivatives for two function types
+        # Sum of derivatives for two function types
         try:
             new_f = Variable(self.val + other.val)
             new_f.der = self.der + other.der
-        # when other is a real number (beta)
+        # When other is a real number (beta)
         except AttributeError:
             new_f = Variable(self.val + other)
             new_f.der = self.der
