@@ -1,7 +1,10 @@
 class Variable:
-    def __init__(self, value) -> None:
+    def __init__(self, value, der = 1) -> None:
         self.val = value
-        self.der = 1
+        self.der = der
+
+    def __str__(self):
+        return f"Dual Number: Value {self.val}, Derivative: {self.der}."
     
     def __mul__(self, other):
         # Product derivative rule for two Variable types
@@ -28,14 +31,24 @@ class Variable:
             new_f.der = self.der
         return new_f
     
+    #When we use the "-" operator dunder
+    def __neg__(self):
+        return Variable(-1*self.val, -1*self.der)
+
     def __radd__(self, other):
         return self.__add__(other)
+
+    def __sub__(self, other):
+        #Subtraction using the dunder methods above
+        return self + (-1*other)
+
+    def __rsub__(self, other):
+        return (-1*other) + self
     
     def __pow__(self, p):
         new_f = Variable(self.val ** p)
         new_f.der = p * self.val ** (p - 1) * self.der
         return new_f
-
 
 class Variables:
     def __init__(self, n):
