@@ -1,6 +1,11 @@
 
 class Variable:
     def __init__(self, value, der=1) -> None:
+        '''
+        Stores the current value and derivative of this variable.
+            - self.val: value
+            - self.der: derivative
+        '''
         self.val = value
         self.der = der
 
