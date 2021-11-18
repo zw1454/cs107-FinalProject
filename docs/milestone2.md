@@ -50,7 +50,72 @@ Importantly, the gradient of *f* computed by forward mode (the derivatives of *f
 
 ## How to Use zapnAD
 
-**THIS NEEDS TO BE REWRITTEN**
+### Getting Started
+
+To run and test the package locally, please follow the below steps in the terminal:
+
+ 1. Create a virtual environment. Here we use will use conda. If you do not have conda, follow these steps for [installation](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
+
+ ```
+ $ conda create -n zapn_test python=3.6
+ ```
+
+ 2. Activate the virtual environment.
+ ```
+ $ conda activate zapn_test
+ ```
+
+ 3. Clone the repository from Github
+ ```
+ $ git clone https://github.com/cs107-zapn/cs107-FinalProject.git
+ ```
+
+ 4. Change directory to the project root directory and install the dependencies.
+ ```
+ $ cd cs107-FinalProject
+$ pip install -r requirements.txt
+ ```
+
+ 5. Install our package. This will call `setup.py` to build our package.
+ ```
+ $ pip install -e .
+ ```
+ 
+Now, our package is installed. You can use `pip list` to check that your virtual environment installed our package.
+
+### Using Forward Mode
+
+To implement forward mode on a scalar function of a scalar import the package import the package, define your variable and function.
+
+```
+#import the package
+import zapnAD as ad
+
+#Now x is a variable you can use to define your function.
+#The value passed into variable is it's value
+x = ad.Variable(10)
+
+#Lets try a basic function
+func = x**2
+
+#Print the derivative of func evaluated at 10
+print(func.der)
+```
+
+We also overloaded elementary trig. functions and exponential functions. You can implement them as follows.
+
+```
+#define variable with value 1
+y = ad.Variable(1)
+
+#use an exponential function to define the function
+func = y**2 + ad.exp(y)
+
+#view dervative of func evaluated at 1
+print(func.der)
+
+```
+
 
 ## Software Organization
 
@@ -63,6 +128,7 @@ cs107-FinalProject/
 │   LICENSE
 |   setup.py
 |   requirements.txt
+|   .gitignore
 │
 └───docs/
 │   │   milestone1.md
@@ -71,51 +137,28 @@ cs107-FinalProject/
 |
 └───zapnAD/
 |   |
-|   └───src/
-|       |   __init__.py
-|       │   AD.py
-|       |   overLoad.py
-|       |   dualNumbers.py
-|       |   variable.py
+|   | __init__.py
+|   | dualNumbers.py
+|   | overLoad.py
 |
 └───tests/
-
+|   | test_dualNumber.py
+|   | test_overload.py
 ```
 
 ### Modules
 
 Each module will server the following purpose:
- - AD.py - This module implements automatic differentiation forward and reverse mode.
- - overLoad.py - This module will overload all elementary functions.
- - variable.py - This module will contain the abstract class for handling variables in different equations.
- - dualNumbers.py - This module will contain the abstract class for handling dualNumbers.
+ - overLoad.py - This module contains the code to overload all elementary functions.
+ - dualNumbers.py - This module contains the abstract class for handling variables in different equations as dual numbers.
 
 ### Test Suite
 
-**WE NEED TO DESCRIBE THE TEST SUITE**
+We used pytest and pytest-cov for testing and coverage. We plan on using a continous integration platform, but for now we manually generated our coverage report and uploaded it to codecov to provide our code coverage.
 
 ### Distribution and Packaging 
 
-To run and test the package locally, please follow the below steps:
-
- - Create a virtual environment. Here we use will use conda.
- ```
- conda create -n zapn_test python=3.6
- ```
- - Activate the virtual environment.
- ```
- conda activate zapn_test
- ```
- - Enter the root folder of the project package. In our case, the root folder is cs107-FinalProject.
- - Install the dependencies.
- ```
- pip install -r requirements.txt
- ```
- - Install our package. This will call `setup.py` to build our package.
- ```
- pip install -e .
- ```
- - Now, our package is installed. One can use `pip list` to check that your virtual environment will have all the dependencies and zapnAD installed.
+We plan to distribute our package via PyPi. The current version is availaible for distribution via github. The user can download and install the package manually by following the instructions in [Getting Started](#getting-started).
 
 ## Implementation 
 
@@ -125,40 +168,56 @@ To implicitly define a computational graph, we used the dual number data structu
 
 ### Classes
 
- - Variables - A class that contains several dual number classes based on user's specification. This is to handle the case when the objective function is multivariate. The number of dual numbers contained is the number of variables used to form the objective function. 
  - Variable - A class that mimics the behavior of a node in the computational graph. When initialized, a dual number class is a single variable with user specified value.
+ - Variables - A class that contains several dual number classes based on user's specification. This is to handle the case when the objective function is multivariate. The number of dual numbers contained is the number of variables used to form the objective function. We will focus on implementing the multi-variable case in the future. 
+
 
 ### Methods and Name Attributes
 
-The Variable class will contain the following methods and attributes. We plan to overload all elementary operations to handle dual number computation under DualNumbers.
- - `__init__(self, value)` will initialize the current value to be the user specified initial value via `self.value`. It will also set the initial derivative via `self.der = 1`.
- - `__add__(self, other)` will add the values and derivatives by creating a new dual number class with updated attributes.
+The Variable class contains the following dunder methods and attributes.
+
+ - `__init__(self, value)` initialize the current value to be the user specified initial value via `self.value`. It will also set the initial derivative via `self.der = 1`.
+ - `__add__(self, other)` adds the values and derivatives by creating a new dual number class with updated attributes.
  - `__radd__(self, other)` will handle the case of constant addition with a dual number.
- - `__mul__(self, other)` will multiply the values and mimic the product derivative rule for derivatives by creating a new dual number class with updated attributes.
- - `__rmul__(self, other)` will handle the case of constant multiplication with a dual number.
- - `__truediv__(self, other)` will divide the values and mimic the division derivative rule for derivatives by creating a new dual number class with updated attributes.
- - `__pow__(self, other)` will give the power of the values and mimic the power derivative rule for derivatives by creating a new dual number class with updated attributes.
+ - `__mul__(self, other)` multiplies the values and mimic the product derivative rule for derivatives by creating a new dual number class with updated attributes.
+ - `__rmul__(self, other)` handles the case of constant multiplication with a dual number.
+ - `__truediv__(self, other)` divides the values and mimic the division derivative rule for derivatives by creating a new dual number class with updated attributes.
+ - `__pow__(self, other)` gives the power of the values and mimic the power derivative rule for derivatives by creating a new dual number class with updated attributes.
+ -`__neg__(self)` allows us to use the `-` operator to negate a Variable object.
 
-For AD it would be a short method to figure out if it is using forward or reverse mode and pass it to the forward or backward mode class implementations.
- - `forward()`: Use forward mode to evaluete the derivative of the objective function.
- - `reverse()`: Use reverse mode to evaluete the derivative of the objective function.
+ -`__sub__(self, other)` subtracts the values and derivatives by creating a new dual number class with updated attributed.
 
-(Tentative) Within the foward and backward node classes:
- - Method to make the computational graph
- - method to iterate over the compuational graph
- - method to evaluate that nodes value (str8 up or derivative version)
+ -`__rsub__(self, other)` handles the case of constant subtraction to dual number and ordering issues.
+ 
+### Elementary Functions
 
+To have trig. and other key elementary functions work on our dual number objects, we included elementary functions in overLoad.py so that they are now callable in the form of ad.function_name(). The elementary functions we overloaded are..
+
+ - `sin(x)` - the sine function of `x`
+ - `cos(x)` - the cosine function of `x`
+ - `tan(x)` - the tangent function of `x`
+ - `arcsin(x)` - the inverse sine function of `x`
+ - `arccos(x)` - the inverse sine function of `x`
+ - `arctan(x)` - the inverse tangent function of `x`
+ - `exp(x)` - the exponential function of form $e^x$
+ - `log(x)` - the logorithmic function of `x`
+ - `log2(x)` - the logorithmic base 2 function of `x`
+ - `log10(x)` - the logorithmic base 10 function of `x`
+ - `sqrt(x)` - the square root of `x`
+
+For the elementary functions overloaded, `x` can be of type Variable, integer, or float.
 
  ### Dependencies
-**HOW DO WE ACTUALLY USE THE REQUIREMENTS.txt**
 
- ### Elementary Functions
-
-To have elementary functions work on our dual number objects, we included elementary functions in overLoad.py so that they are now callable in the form of ad.function_name.  
-
+We have a dependency built on [numpy](https://numpy.org/). In this release, we issued a `requirements.txt` file which contains the dependency, and allows the user to install the package.
+ 
 ## Licensing
 This software is licensed under the GNU General Public License. This Copyleft license allows users to use and modify our software and, as stated on the GNU GPL website, says that "anyone who redistributes the software, with or without changes, must pass along the freedom to further copy and change it." As beneficiaries of free software, we would like to makes ours free as well. 
 
 More on this particular license can be found here: https://www.gnu.org/licenses/gpl-3.0.html 
 
 ## Future Features
+
+In this milestone, we successfully implemented  forward mode AD. This release only handles AD for scalar functions of scalars. For future work we will implement Forward mode AD with vector functions of vectors which will increase complexity. To make these changes, we plan on working more with numpy arrays and lists.
+
+We plan on extending our package by using forward mode AD to implement gradient based optimization methods , and writing backward mode AD into our library. To implement backward mode we will likely have to explicitly define the computational graph structure and build upon the Variable class we created for this release. 
