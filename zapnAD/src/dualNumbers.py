@@ -62,110 +62,173 @@ class Variables:
 
 #overload elem functions
 
-#overload the sin() function
 def sin(x):
-    #all these functions try to treat x as Variable first
+    '''
+    Overloads the sin() function. 
+    The function will first try to treat x as a Variable object.
+    Returns:
+        - A new Variable object if x is a Variable object
+        - A real number if x is a real number
+    '''
     try:
         val = np.sin(x.val)
         der = np.cos(x.val) * x.der
         return Variable(val, der)
 
-    except:
+    except AttributeError():
         return np.sin(x)
 
-#overload the cos() function
 def cos(x):
+    '''
+    Overloads the cos() function. 
+    The function will first try to treat x as a Variable object.
+    Returns:
+        - A new Variable object if x is a Variable object
+        - A real number if x is a real number
+    '''
     try:
         val = np.cos(x.val)
-        der = -1*np.sin(x.val) * x.der
+        der = -1 * np.sin(x.val) * x.der
         return Variable(val, der)
 
-    except:
+    except AttributeError():
         return np.cos(x)
 
-#overload tan() function
 def tan(x):
+    '''
+    Overloads the tan() functions. 
+    The function will first try to treat x as a Variable object.
+    Returns:
+        - A new Variable object if x is a Variable object
+        - A real number if x is a real number
+    '''
     try:
         val = np.tan(x.val)
         der = x.der / np.cos(x.val)**2
         return Variable(val, der)
+
+    except AttributeError():
         return np.tan(x)
 
-    except:
-        return np.tan(x)
-
-#overload arctan() function
 def arcsin(x):
+    '''
+    Overloads the arcsin() functions. 
+    The function will first try to treat x as a Variable object.
+    Returns:
+        - A new Variable object if x is a Variable object
+        - A real number if x is a real number
+    '''
     try:
         val = np.arcsin(x.val)
-        der = x.der / sqrt(1-x.val**2)
+        der = x.der / sqrt(1 - x.val**2)
         return Variable(val, der)
 
-    except:
+    except AttributeError():
         return np.arcsin(x)
 
-#overload arccos() function
 def arccos(x):
+    '''
+    Overloads the arccos() functions. 
+    The function will first try to treat x as a Variable object.
+    Returns:
+        - A new Variable object if x is a Variable object
+        - A real number if x is a real number
+    '''
     try:
         val = np.arccos(x.val)
-        der = -1 * x.der / sqrt(1-x.val**2)
+        der = -1 * x.der / sqrt(1 - x.val**2)
         return Variable(val, der)
 
-    except:
+    except AttributeError():
         return np.arccos()
 
-#ovrload arctan() function
 def arctan(x):
+    '''
+    Overloads the arctan() functions. 
+    The function will first try to treat x as a Variable object.
+    Returns:
+        - A new Variable object if x is a Variable object
+        - A real number if x is a real number
+    '''
     try:
         val = np.arctan(x.val)
-        der = 1 / (1 + x.val**2) * sqrt(1-x.val**2)
+        der = x.der / (1 + x.val**2)
         return Variable(val, der)
 
-    except:
+    except AttributeError():
         return np.arctan(x)
  
-#overload exp() function
 def exp(x):
+    '''
+    Overloads the exp() functions. 
+    The function will first try to treat x as a Variable object.
+    Returns:
+        - A new Variable object if x is a Variable object
+        - A real number if x is a real number
+    '''
     try:
         val = np.exp(x.val)
         der = np.exp(x.val) * x.der
         return Variable(val, der)
 
-    except:
+    except AttributeError():
         return np.exp(x)
 
-#overload log base exp(1) function
 def log(x):
+    '''
+    Overloads the natural logarithm ln() functions. 
+    The function will first try to treat x as a Variable object.
+    Returns:
+        - A new Variable object if x is a Variable object
+        - A real number if x is a real number
+    '''
     try:
         val = np.log(x.val)
         der = (1/x.val) * x.der
         return Variable(val, der)
 
-    except:
+    except AttributeError():
         return np.log(x)
 
-#overload log base 2 function
 def log2(x):
+    '''
+    Overloads the log2() (base 2) functions. 
+    The function will first try to treat x as a Variable object.
+    Returns:
+        - A new Variable object if x is a Variable object
+        - A real number if x is a real number
+    '''
     try:
         val = np.log2(x.val)
-        der = (1/(x.val *np.log(2))) * x.der
+        der = (1/(x.val * np.log(2))) * x.der
         return Variable(val, der)
-    #for some reason it doesnt like except AttributeErrors here    
+    # For some reason it doesn't like except AttributeErrors here    
     except:
         return np.log2(x)
 
-#overload log base 10 function
 def log10(x):
+    '''
+    Overloads the log10() (base 10) functions. 
+    The function will first try to treat x as a Variable object.
+    Returns:
+        - A new Variable object if x is a Variable object
+        - A real number if x is a real number
+    '''
     try:
         val = np.log10(x.val)
-        der = (1/(x.val *np.log(10))) * x.der
+        der = (1/(x.val * np.log(10))) * x.der
         return Variable(val, der)
 
-    except:
+    except AttributeError():
         return np.log10(x)
   
-#overload the sqrt function
 def sqrt(x):
+    '''
+    Overloads the sqrt() functions. 
+    Returns:
+        - A new Variable object if x is a Variable object
+        - A real number if x is a real number
+    '''
     return x**(1/2)
 
 if __name__ == '__main__':
