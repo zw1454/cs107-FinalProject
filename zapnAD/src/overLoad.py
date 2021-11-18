@@ -1,4 +1,3 @@
-from dualNumbers import *
 import numpy as np
 
 #overload the sin() function
@@ -108,6 +107,7 @@ def sqrt(x):
     return x**(1/2)
 
 if __name__ == '__main__':
+    from dualNumbers import *
     variables = Variables(n=1).set_values(values=[3]) # List of object Variable
     x = variables[0]
     y = (2 * x + x ** 2)
