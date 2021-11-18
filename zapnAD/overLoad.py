@@ -1,4 +1,5 @@
 import numpy as np
+from dualNumbers import Variable, Variables
 
 def sin(x):
     '''
