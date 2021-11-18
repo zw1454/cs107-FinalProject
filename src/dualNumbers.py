@@ -44,7 +44,7 @@ class Variable:
         return self + (-1*other)
 
     def __rsub__(self, other):
-        return (-1*other) + self
+        return other + (-1*self)
     
     def __pow__(self, p):
         new_f = Variable(self.val ** p)
@@ -55,15 +55,9 @@ class Variables:
     def __init__(self, n):
         self.n = n
     
+    def __len__(self):
+        return self.n
+    
     def set_values(self, values):
         assert len(values) == self.n, 'Dimension Mismatch!'
         return [Variable(value) for value in values]
-
-
-if __name__ == '__main__':
-    variables = Variables(n=1).set_values(values=[3]) # List of object Variable
-    x = variables[0]
-    y = (2 * x + x ** 2)
-    print(y.der)
-    print(y.val)
-    print((y ** 2).der)

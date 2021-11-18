@@ -1,5 +1,5 @@
 import pytest
-import sys
+import numpy as np
 from dualNumbers import *
 
 class TestVariable:
@@ -99,17 +99,91 @@ class TestVariable:
     def test_twelve(self):
         """Test subtraction with two dual numbers."""
         v1, v2 = self.setup_class()
+        res = v1-v2
+        
+        assert res.val == 1
+        assert res.der == -0.5
+        
+    def test_thirteen(self):
+        """Test subtraction with real on the right hand side."""
+        v1, v2 = self.setup_class()
+        res = v1-3
+        
+        assert res.val == 2
+        assert res.der == 1.5
+        
+    def test_fourteen(self):
+        """Test __rsub__: subtraction with real on left hand side."""
+        v1, v2 = self.setup_class()
+        res = 3-v1
+        
+        assert res.val == -2
+        assert res.der == -1.5
+        
+    def test_fifteen(self):
+        """Test __pow__ with positive power"""
+        v1, v2 = self.setup_class()
+        res = v2**3
+        
+        assert res.val == 64
+        assert res.der == 96
+        
+    def test_sixteen(self):
+        """Test __pow__ with negative power"""
+        
+        v1, v2 = self.setup_class()
+        res = v2**-3
+        
+        assert res.val == 1/64.0
+        assert res.der == -3.0/128
+        
+    def test_seventeen(self):
+        """Test __pow__ with zero."""
+        v1, v2 = self.setup_class()
+        res = v2**0
+        
+        assert res.val == 1
+        assert res.der == 0
+        
+class TestVariables:
+   
+    def test_one(self):
+        """Test creation of variables."""
+        vs = Variables(4)
+        
+        assert len(vs) == 4
+   
+   
+    def test_two(self):
+        """Test setting value of variables with correct value, list format."""
+        v_const = Variables(4)
+        v_objs = v_const.set_values([5, 5, 5, 5])
+        
+        for v in v_objs:
+            assert v.val == 5
+            assert v.der == 1
+            
+    def test_three(self):
+        """Test setting value of variables with correct value, numpy array format."""
+        v_const = Variables(4)
+        v_objs = v_const.set_values(np.array([5, 5, 5, 5]))
+        
+        for v in v_objs:
+            assert v.val == 5
+            assert v.der == 1
+            
+    def test_four(self):
+        """Test setting value of variables with incorrect value."""
+        v_const = Variables(4)
+        
+        with pytest.raises(AssertionError):
+            v_const.set_values([5, 5])
         
         
-        
-        
-        
-    
-        
-    
     
 """
 TODO:
 
 TestVariable test_three
+TestVariable test_fifteen check
 """
