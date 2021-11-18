@@ -1,2 +1,2 @@
-from dualNumbers import *
-from overLoad import *
+from .dualNumbers import *
+from .overLoad import *

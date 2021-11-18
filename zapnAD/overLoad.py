@@ -1,5 +1,5 @@
 import numpy as np
-from dualNumbers import Variable, Variables
+from .dualNumbers import Variable, Variables
 
 def sin(x):
     '''
@@ -158,7 +158,7 @@ def log10(x):
         der = (1/(x.val * np.log(10))) * x.der
         return Variable(val, der)
 
-    except AttributeError():
+    except:
         return np.log10(x)
   
 def sqrt(x):
@@ -171,7 +171,6 @@ def sqrt(x):
     return x**(1/2)
 
 if __name__ == '__main__':
-    from dualNumbers import *
     variables = Variables(n=1).set_values(values=[3]) # List of object Variable
     x = variables[0]
     y = (2 * x + x ** 2)
