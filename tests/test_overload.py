@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
-from dualNumbers import *
-from overLoad import * 
+from zapnAD.dualNumbers import *
+from zapnAD.overLoad import * 
 
 class TestVariable:
     
