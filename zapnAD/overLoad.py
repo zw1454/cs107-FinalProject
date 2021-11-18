@@ -64,6 +64,11 @@ def arcsin(x):
 
     except AttributeError:
         return np.arcsin(x)
+    
+    except ZeroDivisionError:
+        val = np.arcsin(x.val)
+        der = float('Inf')
+        return Variable(val, der)
 
 def arccos(x):
     '''
@@ -75,11 +80,16 @@ def arccos(x):
     '''
     try:
         val = np.arccos(x.val)
-        der = -1 * x.der / sqrt(1 - x.val**2)
+        der = -1 * x.der / sqrt(1.0 - x.val**2)
         return Variable(val, der)
 
     except AttributeError:
-        return np.arccos()
+        return np.arccos(x)
+    
+    except ZeroDivisionError:
+        val = np.arccos(x.val)
+        der = float('Inf')
+        return Variable(val, der)
 
 def arctan(x):
     '''
@@ -91,7 +101,7 @@ def arctan(x):
     '''
     try:
         val = np.arctan(x.val)
-        der = x.der / (1 + x.val**2)
+        der = x.der / (1.0 + x.val**2)
         return Variable(val, der)
 
     except AttributeError:
@@ -169,20 +179,3 @@ def sqrt(x):
         - A real number if x is a real number
     '''
     return x**(1/2)
-
-if __name__ == '__main__':
-    variables = Variables(n=1).set_values(values=[3]) # List of object Variable
-    x = variables[0]
-    y = (2 * x + x ** 2)
-    #arcsin and arccos are returning warnings. Note their value becomes NaN
-    print(y)
-    print(sin(y))
-    print(cos(y))
-    print(log2(2))
-    print(log(y))
-    print(sqrt(16))
-    print(sqrt(y))
-    print(arccos(y))
-    print(arcsin(y))
-    print(arctan(y))
-    print(tan(y))
