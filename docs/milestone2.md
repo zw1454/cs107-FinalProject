@@ -61,15 +61,17 @@ The directory structure for the final project is as follows:
 cs107-FinalProject/
 │   README.md
 │   LICENSE
-|   setup.cfg
-|   pyproject.toml
+|   setup.py
+|   requirements.txt
 │
 └───docs/
-│   │   documentation.md
+│   │   milestone1.md
+|   |   milestone2_progress.md
+|   |   milestone2.md
 |
-└───src/
+└───zapnAD/
 |   |
-|   └───zapnAD/
+|   └───src/
 |       |   __init__.py
 |       │   AD.py
 |       |   overLoad.py
@@ -94,7 +96,26 @@ Each module will server the following purpose:
 
 ### Distribution and Packaging 
 
-**THIS WILL CHANGE NOW BECAUSE IT IS NOT ON PYPI**
+To run and test the package locally, please follow the below steps:
+
+ - Create a virtual environment. Here we use will use conda.
+ ```
+ conda create -n zapn_test python=3.6
+ ```
+ - Activate the virtual environment.
+ ```
+ conda activate zapn_test
+ ```
+ - Enter the root folder of the project package. In our case, the root folder is cs107-FinalProject.
+ - Install the dependencies.
+ ```
+ pip install -r requirements.txt
+ ```
+ - Install our package. This will call `setup.py` to build our package.
+ ```
+ pip install -e .
+ ```
+ - Now, our package is installed. One can use `pip list` to check that your virtual environment will have all the dependencies and zapnAD installed.
 
 ## Implementation 
 
