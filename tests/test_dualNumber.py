@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from dualNumbers import *
+from zapnAD.dualNumbers import *
 
 class TestVariable:
     

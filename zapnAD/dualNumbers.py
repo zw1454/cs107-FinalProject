@@ -1,6 +1,11 @@
 
 class Variable:
-    def __init__(self, value, der = 1) -> None:
+    def __init__(self, value, der=1) -> None:
+        '''
+        Stores the current value and derivative of this variable.
+            - self.val: value
+            - self.der: derivative
+        '''
         self.val = value
         self.der = der
 
@@ -32,7 +37,7 @@ class Variable:
             new_f.der = self.der
         return new_f
     
-    #When we use the "-" operator dunder
+    # When we use the "-" operator dunder
     def __neg__(self):
         return Variable(-1*self.val, -1*self.der)
 
@@ -40,7 +45,7 @@ class Variable:
         return self.__add__(other)
 
     def __sub__(self, other):
-        #Subtraction using the dunder methods above
+        # Subtraction using the dunder methods above
         return self + (-1*other)
 
     def __rsub__(self, other):
@@ -51,6 +56,7 @@ class Variable:
         new_f.der = p * self.val ** (p - 1) * self.der
         return new_f
 
+
 class Variables:
     def __init__(self, n):
         self.n = n
@@ -59,5 +65,10 @@ class Variables:
         return self.n
     
     def set_values(self, values):
+        '''
+        This class is a vector representation of all the input variables.
+        Returns:
+            A list of single variables of user-specified length
+        '''
         assert len(values) == self.n, 'Dimension Mismatch!'
         return [Variable(value) for value in values]
