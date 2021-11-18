@@ -1,4 +1,4 @@
-from DualNumbers import *
+from dualNumbers import *
 import numpy as np
 
 #overload the sin() function
