@@ -1,1 +1,1 @@
-from .src.dualNumbers import *
+from .src.dualNumbers import Variable, Variables

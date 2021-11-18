@@ -1,5 +1,6 @@
 import pytest
 import numpy as np
+from zapnAD import Variable, Variables
 
 class TestVariable:
     
