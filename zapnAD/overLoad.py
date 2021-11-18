@@ -14,7 +14,7 @@ def sin(x):
         der = np.cos(x.val) * x.der
         return Variable(val, der)
 
-    except AttributeError():
+    except AttributeError:
         return np.sin(x)
 
 def cos(x):
@@ -30,7 +30,7 @@ def cos(x):
         der = -1 * np.sin(x.val) * x.der
         return Variable(val, der)
 
-    except AttributeError():
+    except AttributeError:
         return np.cos(x)
 
 def tan(x):
@@ -46,7 +46,7 @@ def tan(x):
         der = x.der / np.cos(x.val)**2
         return Variable(val, der)
 
-    except AttributeError():
+    except AttributeError:
         return np.tan(x)
 
 def arcsin(x):
@@ -62,7 +62,7 @@ def arcsin(x):
         der = x.der / sqrt(1 - x.val**2)
         return Variable(val, der)
 
-    except AttributeError():
+    except AttributeError:
         return np.arcsin(x)
 
 def arccos(x):
@@ -78,7 +78,7 @@ def arccos(x):
         der = -1 * x.der / sqrt(1 - x.val**2)
         return Variable(val, der)
 
-    except AttributeError():
+    except AttributeError:
         return np.arccos()
 
 def arctan(x):
@@ -94,7 +94,7 @@ def arctan(x):
         der = x.der / (1 + x.val**2)
         return Variable(val, der)
 
-    except AttributeError():
+    except AttributeError:
         return np.arctan(x)
  
 def exp(x):
@@ -110,7 +110,7 @@ def exp(x):
         der = np.exp(x.val) * x.der
         return Variable(val, der)
 
-    except AttributeError():
+    except AttributeError:
         return np.exp(x)
 
 def log(x):
@@ -126,7 +126,7 @@ def log(x):
         der = (1/x.val) * x.der
         return Variable(val, der)
 
-    except AttributeError():
+    except AttributeError:
         return np.log(x)
 
 def log2(x):
@@ -142,7 +142,7 @@ def log2(x):
         der = (1/(x.val * np.log(2))) * x.der
         return Variable(val, der)
     # For some reason it doesn't like except AttributeErrors here    
-    except:
+    except AttributeError:
         return np.log2(x)
 
 def log10(x):
@@ -158,7 +158,7 @@ def log10(x):
         der = (1/(x.val * np.log(10))) * x.der
         return Variable(val, der)
 
-    except:
+    except AttributeError:
         return np.log10(x)
   
 def sqrt(x):
