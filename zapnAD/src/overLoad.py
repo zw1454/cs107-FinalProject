@@ -1,4 +1,5 @@
 import numpy as np
+from dualNumbers import *
 
 #overload the sin() function
 def sin(x):
