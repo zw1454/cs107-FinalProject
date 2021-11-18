@@ -1,2 +1,2 @@
-from .src.DualNumber import *
+from .src.DualNumbers import *
 from .src.OverLoad import *
