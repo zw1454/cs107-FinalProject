@@ -99,6 +99,7 @@ def arctan(x):
         - A new Variable object if x is a Variable object
         - A real number if x is a real number
     '''
+    
     try:
         val = np.arctan(x.val)
         der = x.der / (1.0 + x.val**2)
@@ -106,6 +107,7 @@ def arctan(x):
 
     except AttributeError:
         return np.arctan(x)
+    
  
 def exp(x):
     '''
@@ -131,6 +133,7 @@ def log(x):
         - A new Variable object if x is a Variable object
         - A real number if x is a real number
     '''
+
     try:
         val = np.log(x.val)
         der = (1/x.val) * x.der
@@ -147,6 +150,7 @@ def log2(x):
         - A new Variable object if x is a Variable object
         - A real number if x is a real number
     '''
+        
     try:
         val = np.log2(x.val)
         der = (1/(x.val * np.log(2))) * x.der
@@ -163,6 +167,8 @@ def log10(x):
         - A new Variable object if x is a Variable object
         - A real number if x is a real number
     '''
+
+        
     try:
         val = np.log10(x.val)
         der = (1/(x.val * np.log(10))) * x.der
@@ -178,4 +184,18 @@ def sqrt(x):
         - A new Variable object if x is a Variable object
         - A real number if x is a real number
     '''
-    return x**(1/2)
+    
+    try:
+        if x.val > 0:
+            return x**0.5
+        
+        else:
+            raise ValueError("value < 0 not valid for square root")
+    
+    except AttributeError:
+        
+        if x > 0:
+            return x**0.5
+    
+        else:
+            raise ValueError("Value < 0 not valid for square root")

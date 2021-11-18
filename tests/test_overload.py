@@ -48,7 +48,7 @@ class TestVariable:
         assert arcsin(v1).val == np.arcsin(1)
         assert arcsin(v1).der == float('Inf')
         assert arcsin(v2) == np.arcsin(-0.8)
-    
+        
     def test_five_a(self):
         """ Test arccos function within domain."""
         v1 = Variable(0.8, 0.5) # test in domain of function
@@ -105,3 +105,11 @@ class TestVariable:
         assert sqrt(v1).val == np.sqrt(5)
         assert sqrt(v1).der == 1.5*(1/2)*5**(-1/2)
         assert sqrt(v2) == np.sqrt(4)
+
+    def test_eleven_b(self):
+        """ Test square root of negative number"""
+        v1 = Variable(-1, 0.5) # test in domain of function
+        with pytest.raises(ValueError, match=r"Value < 0 not valid for square root"):
+            sqrt(v1)
+
+    
