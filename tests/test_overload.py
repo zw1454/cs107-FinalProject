@@ -15,4 +15,5 @@ class TestVariable:
     def test_one(self):
         """ Test sin function"""
         v1, v2 = self.setup_class()
-        assert 
+        assert np.sin(v1) == Variable(np.sin(v1.val), np.cos(v1.val) * v1.der)
+        assert np.sin(v2) == np.sin(4)
