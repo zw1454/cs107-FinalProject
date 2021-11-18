@@ -75,5 +75,5 @@ class TestVariable:
     def test_eleven(self):
         """ Test square root function"""
         v1, v2 = self.setup_class()
-        assert np.sqrt(v1) == Variable(np.sqrt(v1.val), (1/(v1.val * np.log(2))) * v1.der)
+        assert sqrt(v1) == Variable(v1.val * 0.5, 0.5 * v1.val ** (1/2 - 1) * v1.der)
         assert sqrt(v2) == np.sqrt(4)
