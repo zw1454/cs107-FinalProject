@@ -8,7 +8,7 @@ def sin(x):
         der = np.cos(x.val) * x.der
         return Variable(val, der)
 
-    except AttributeError():
+    except:
         return np.sin(x)
 
 #overload the cos() function
@@ -18,7 +18,7 @@ def cos(x):
         der = -1*np.sin(x.val) * x.der
         return Variable(val, der)
 
-    except AttributeError():
+    except:
         return np.cos(x)
 
 #overload tan() function
@@ -29,7 +29,7 @@ def tan(x):
         return Variable(val, der)
         return np.tan(x)
 
-    except AttributeError():
+    except:
         return np.tan(x)
 
 #overload arctan() function
@@ -39,7 +39,7 @@ def arcsin(x):
         der = x.der / sqrt(1-x.val**2)
         return Variable(val, der)
 
-    except AttributeError():
+    except:
         return np.arcsin(x)
 
 #overload arccos() function
@@ -49,7 +49,7 @@ def arccos(x):
         der = -1 * x.der / sqrt(1-x.val**2)
         return Variable(val, der)
 
-    except AttributeError():
+    except:
         return np.arccos()
 
 #ovrload arctan() function
@@ -59,7 +59,7 @@ def arctan(x):
         der = 1 / (1 + x.val**2) * sqrt(1-x.val**2)
         return Variable(val, der)
 
-    except AttributeError():
+    except:
         return np.arctan(x)
  
 #overload exp() function
@@ -69,7 +69,7 @@ def exp(x):
         der = np.exp(x.val) * x.der
         return Variable(val, der)
 
-    except AttributeError():
+    except:
         return np.exp(x)
 
 #overload log base exp(1) function
@@ -79,7 +79,7 @@ def log(x):
         der = (1/x.val) * x.der
         return Variable(val, der)
 
-    except AttributeError():
+    except:
         return np.log(x)
 
 #overload log base 2 function
@@ -99,7 +99,7 @@ def log10(x):
         der = (1/(x.val *np.log(10))) * x.der
         return Variable(val, der)
 
-    except AttributeError():
+    except:
         return np.log10(x)
   
 #overload the sqrt function
