@@ -186,16 +186,13 @@ def sqrt(x):
     '''
     
     try:
-        if x.val > 0:
-            return x**0.5
-        
-        else:
-            raise ValueError("value < 0 not valid for square root")
+        val = x.val
     
     except AttributeError:
+        val = x
         
-        if x > 0:
-            return x**0.5
-    
-        else:
-            raise ValueError("Value < 0 not valid for square root")
+    if val >= 0:
+        return x**0.5
+
+    else:
+        raise ValueError("Value < 0 not valid for square root")
