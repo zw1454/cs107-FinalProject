@@ -1,5 +1,6 @@
 import numpy as np
-from .dualNumbers import Variable, Variables
+# from .dualNumbers import Variable, Variables
+from dualNumbers import Variable, Variables
 
 def sin(x):
     '''
@@ -109,38 +110,65 @@ def arctan(x):
         return np.arctan(x)
     
  
-def exp(x):
+def exp(x, base=None):
     '''
-    Overloads the exp() functions. 
+    Overloads the exp() functions. If base not specified, handles
+    the natural base e as the special case. If base is specified, 
+    then treat the base as such and calculate the exponential 
+    accordingly. 
+    
     The function will first try to treat x as a Variable object.
     Returns:
         - A new Variable object if x is a Variable object
         - A real number if x is a real number
     '''
-    try:
-        val = np.exp(x.val)
-        der = np.exp(x.val) * x.der
-        return Variable(val, der)
+    if base is None: 
+        try:
+            val = np.exp(x.val)
+            der = np.exp(x.val) * x.der
+            return Variable(val, der)
 
-    except AttributeError:
-        return np.exp(x)
+        except AttributeError:
+            return np.exp(x)
+    else: 
+        try: 
+            val = base**x.val 
+            der = (x.val* base**(x.val - 1)) * x.der 
+            return Variable(val, der)
 
-def log(x):
+        except AttributeError:
+            return base**x
+
+
+def log(x, base=None):
     '''
-    Overloads the natural logarithm ln() functions. 
+    If base is None, overloads the natural logarithm ln() functions. 
     The function will first try to treat x as a Variable object.
     Returns:
         - A new Variable object if x is a Variable object
         - A real number if x is a real number
+
+    If base is not None, and is some other base, returns the log of 
+    that base function for the Variable object, otherwise defaults 
+    on it being a real number and apply the operation similarly. 
     '''
+    if base is None: # natural number case:
+        try:
+            val = np.log(x.val)
+            der = (1/x.val) * x.der
+            return Variable(val, der)
 
-    try:
-        val = np.log(x.val)
-        der = (1/x.val) * x.der
-        return Variable(val, der)
+        except AttributeError:
+            return np.log(x)
+    
+    else: 
+        try: 
+            val = np.log(x.val) / np.log(base)
+            der = (1/(x.val * np.log(base))) * x.der
+            return Variable(val, der)
 
-    except AttributeError:
-        return np.log(x)
+        except AttributeError:
+            return np.log(x) / np.log(base)
 
 def log2(x):
     '''
@@ -196,3 +224,59 @@ def sqrt(x):
 
     else:
         raise ValueError("Value < 0 not valid for square root")
+
+def sinh(x): 
+    '''
+    Creates the sinh() function. 
+    The function will first try to treat x as a Variable object.
+    Returns:
+        - A new Variable object if x is a Variable object
+        - A real number if x is a real number
+    '''
+    try:
+        val = np.sinh(x.val)
+        der = np.cosh(x.val) * x.der
+        return Variable(val, der)
+
+    except AttributeError:
+        return np.sinh(x)
+    
+def cosh(x):
+    '''
+    Overloads the cosh() function. 
+    The function will first try to treat x as a Variable object.
+    Returns:
+        - A new Variable object if x is a Variable object
+        - A real number if x is a real number
+    '''
+    try:
+        val = np.cosh(x.val)
+        der = np.sinh(x.val) * x.der
+        return Variable(val, der)
+
+    except AttributeError:
+        return np.cosh(x)
+
+def tanh(x):
+    '''
+    Overloads the tanh() functions. 
+    The function will first try to treat x as a Variable object.
+    Returns:
+        - A new Variable object if x is a Variable object
+        - A real number if x is a real number
+    '''
+    try:
+        val = np.tanh(x.val)
+        der = (1 - (np.tanh(x.val))**2) * x.der 
+        return Variable(val, der)
+
+    except AttributeError:
+        return np.tanh(x)
+
+test = Variable(5)
+a = exp(test, 2)
+print(a)
+
+test2 = Variable(4)
+test3 = test2
+print(log(test2, 2) == log2(test2))

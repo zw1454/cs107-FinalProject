@@ -56,7 +56,24 @@ class Variable:
         new_f.der = p * self.val ** (p - 1) * self.der
         return new_f
 
+    def __lt__(self, other):
+        return self.val < other.val 
 
+    def __le__(self, other):
+        return self.val <= other.val 
+
+    def __gt__(self, other):
+        return self.val > other.val 
+
+    def __ge__(self, other):
+        return self.val >= other.val 
+
+    def __eq__(self, other):
+        return self.val == other.val 
+
+    def __ne__(self, other):
+        return self.val != other.val    
+        
 class Variables:
     def __init__(self, n):
         self.n = n
