@@ -1,16 +1,19 @@
+import numpy as np
+
 
 class Variable:
-    def __init__(self, value, der=1) -> None:
+    def __init__(self, value, derivatives=None) -> None:
         '''
         Stores the current value and derivative of this variable.
             - self.val: value
             - self.der: derivative
         '''
         self.val = value
-        self.der = der
+        self.der = derivatives
 
     def __str__(self):
-        return f"Dual Number: Value {self.val}, Derivative: {self.der}."
+        return f"Value {self.val}\n" + \
+            f"Full Jacobian {self.der}\n"
     
     def __mul__(self, other):
         # Product derivative rule for two Variable types
@@ -84,8 +87,22 @@ class Variables:
     def set_values(self, values):
         '''
         This class is a vector representation of all the input variables.
+        Input:
+            values: list of float numbers
         Returns:
             A list of single variables of user-specified length
         '''
-        assert len(values) == self.n, 'Dimension Mismatch!'
-        return [Variable(value) for value in values]
+        n = len(values)
+        assert n == self.n, 'Dimension Mismatch!'
+        variable_list = []
+        for i, value in enumerate(values):
+            der_list = np.zeros(n)
+            der_list[i] = 1
+            variable_list.append(Variable(value, der_list))
+        return variable_list
+
+
+if __name__ == "__main__":
+    variables = Variables(n=2).set_values([1, 2])
+    x, y = variables[0], variables[1]
+    print((x + y) * x)
