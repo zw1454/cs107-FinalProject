@@ -4,8 +4,9 @@ class Variable:
     def __init__(self, value, derivatives=None) -> None:
         '''
         Stores the current value and derivative of this variable.
-            - self.val: value
-            - self.der: derivative
+        Input:
+            - self.val: current value
+            - self.der: full derivative
         '''
         self.val = value
         self.der = derivatives
@@ -85,6 +86,11 @@ class Variable:
         
 class Variables:
     def __init__(self, n_inputs):
+        '''
+        Attributes:
+            - self.n_inputs: int, number of input variables x, y, z ...
+            - self.variables: list of object type Variable
+        '''
         self.n_inputs = n_inputs
         self.variables = []
     
@@ -125,10 +131,20 @@ class Function():
         self.Fs = Fs
     
     def values(self):
+        '''
+        Returns the current values of each output
+        Returns:
+            - ndarray of size len(self.Fs)
+        '''
         result = [F.get_value() for F in self.Fs]
         return np.array(result)
     
     def Jacobian(self):
+        '''
+        Computes the Jacobian matrix.
+        Returns:
+            - ndarray of shape (n_outputs, n_inputs)
+        '''
         return np.vstack([f.get_gradient() for f in self.Fs])
 
 
