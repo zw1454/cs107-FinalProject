@@ -129,11 +129,7 @@ class Function():
         return np.array(result)
     
     def Jacobian(self):
-        n_inputs = len(self.Fs[0].der)
-        n_outputs = len(self.Fs)
-        result = np.zeros(n_outputs, n_inputs)
-        pass
-
+        return np.vstack([f.get_gradient() for f in self.Fs])
 
 
 if __name__ == "__main__":
@@ -143,5 +139,7 @@ if __name__ == "__main__":
     variables.set_values([3, 1])
     x, y = variables[0], variables[1]
 
-    function = Function(Fs=[x*y, x ** 2, x * sin(y)])
+    function = Function(Fs=[x*y, x ** 2, x * sin(y)]) # 2 inputs, 3 outputs
     print(function.values())
+    print()
+    print(function.Jacobian()) # 3 by 2 matrix
