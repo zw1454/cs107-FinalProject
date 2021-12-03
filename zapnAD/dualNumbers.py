@@ -14,6 +14,12 @@ class Variable:
         return f"Value {self.val}\n" + \
             f"Full Jacobian {self.der}\n"
     
+    def get_value(self):
+        return self.val
+    
+    def get_gradient(self):
+        return self.der
+    
     def __mul__(self, other):
         # Product derivative rule for two Variable types
         try:
@@ -78,12 +84,19 @@ class Variable:
         
         
 class Variables:
-    def __init__(self, n_inputs, n_outputs=1):
+    def __init__(self, n_inputs):
         self.n_inputs = n_inputs
-        self.n_outputs = n_outputs
+        self.variables = []
     
     def __len__(self):
         return self.n_inputs
+    
+    def __iter__(self):
+        return iter(self.variables)
+    
+    def __getitem__(self, key):
+        assert key < len(self.variables), "Key Error"
+        return self.variables[key]
     
     def set_values(self, values):
         '''
@@ -91,7 +104,7 @@ class Variables:
         Input:
             values: list of float numbers
         Returns:
-            A list of single variables of user-specified length
+            None
         '''
         n = len(values)
         assert n == self.n_inputs, 'Dimension Mismatch!'
@@ -100,14 +113,35 @@ class Variables:
             der_list = np.zeros(n)
             der_list[i] = 1
             variable_list.append(Variable(value, der_list))
-        return variable_list
+        self.variables variable_list
+
+
+class Function():
+    def __init__(self, Fs):
+        '''
+        Input:
+            - Fs: List of Variable objects. Each item represent one output dimension.
+        '''
+        self.Fs = Fs
+    
+    def values(self):
+        result = [F.get_value() for F in self.Fs]
+        return np.array(result)
+    
+    def Jacobian(self):
+        n_inputs = len(self.Fs[0].der)
+        n_outputs = len(self.Fs)
+        result = np.zeros(n_outputs, n_inputs)
+        pass
+
 
 
 if __name__ == "__main__":
     from overLoad import *
 
-    variables = Variables(n_inputs=2).set_values([3, 1])
+    variables = Variables(n_inputs=2)
+    variables.set_values([3, 1])
     x, y = variables[0], variables[1]
 
-    f = [x*y, x]
-    print(x*y)
+    function = Function(Fs=[x*y, x ** 2, x * sin(y)])
+    print(function.values())
