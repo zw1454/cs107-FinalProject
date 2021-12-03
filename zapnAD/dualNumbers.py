@@ -113,7 +113,7 @@ class Variables:
             der_list = np.zeros(n)
             der_list[i] = 1
             variable_list.append(Variable(value, der_list))
-        self.variables variable_list
+        self.variables = variable_list
 
 
 class Function():
