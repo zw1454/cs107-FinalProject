@@ -1,6 +1,5 @@
 import numpy as np
 
-
 class Variable:
     def __init__(self, value, derivatives=None) -> None:
         '''
@@ -77,12 +76,14 @@ class Variable:
     def __ne__(self, other):
         return self.val != other.val    
         
+        
 class Variables:
-    def __init__(self, n):
-        self.n = n
+    def __init__(self, n_inputs, n_outputs=1):
+        self.n_inputs = n_inputs
+        self.n_outputs = n_outputs
     
     def __len__(self):
-        return self.n
+        return self.n_inputs
     
     def set_values(self, values):
         '''
@@ -93,7 +94,7 @@ class Variables:
             A list of single variables of user-specified length
         '''
         n = len(values)
-        assert n == self.n, 'Dimension Mismatch!'
+        assert n == self.n_inputs, 'Dimension Mismatch!'
         variable_list = []
         for i, value in enumerate(values):
             der_list = np.zeros(n)
@@ -103,6 +104,10 @@ class Variables:
 
 
 if __name__ == "__main__":
-    variables = Variables(n=2).set_values([1, 2])
+    from overLoad import *
+
+    variables = Variables(n_inputs=2).set_values([3, 1])
     x, y = variables[0], variables[1]
-    print((x + y) * x)
+
+    f = [x*y, x]
+    print(x*y)

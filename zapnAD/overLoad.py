@@ -272,11 +272,3 @@ def tanh(x):
 
     except AttributeError:
         return np.tanh(x)
-
-test = Variable(5)
-a = exp(test, 2)
-print(a)
-
-test2 = Variable(4)
-test3 = test2
-print(log(test2, 2) == log2(test2))
