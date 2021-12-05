@@ -92,12 +92,12 @@ To implement forward mode, import the package, and then define your variable and
 import zapnAD as ad
 
 # Initialize input variables
-variables = Variables(n_inputs=2)
+variables = ad.Variables(n_inputs=2)
 variables.set_values([3, 1])
 x, y = variables[0], variables[1]
 
 # Define the objective function
-function = Function(Fs=[x*y, x ** 2, x * sin(y)]) # 2 inputs, 3 outputs
+function = ad.Function(Fs=[x*y, x ** 2, x + y]) # 2 inputs, 3 outputs
 print(function.values())
 print(function.Jacobian()) # 3 by 2 matrix
 ```
@@ -109,7 +109,7 @@ We also overloaded elementary trig. functions and exponential functions. You can
 y = ad.Variables(n_inputs=1).set_values([1])[0]
 
 # Use an exponential function to define the objective function
-func = Function([y**2 + exp(y)])
+func = ad.Function([y**2 + ad.exp(y)])
 
 # View Jacobian evaluated at 1
 print(func.Jacobian())
