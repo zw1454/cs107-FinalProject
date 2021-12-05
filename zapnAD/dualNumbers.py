@@ -120,6 +120,7 @@ class Variables:
             der_list[i] = 1
             variable_list.append(Variable(value, der_list))
         self.variables = variable_list
+        return self
 
 
 class Function():
@@ -159,3 +160,11 @@ if __name__ == "__main__":
     print(function.values())
     print()
     print(function.Jacobian()) # 3 by 2 matrix
+
+    y = Variables(n_inputs=1).set_values([1])[0]
+
+    # Use an exponential function to define the objective function
+    func = Function([y**2 + exp(y)])
+
+    # View Jacobian evaluated at 1
+    print(func.Jacobian())

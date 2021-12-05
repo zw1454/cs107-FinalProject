@@ -85,34 +85,34 @@ Now, our package is installed. You can use `pip list` to check that your virtual
 
 ### Using Forward Mode
 
-To implement forward mode on a scalar function of a scalar import the package import the package, define your variable and function.
+To implement forward mode, import the package, and then define your variable and function.
 
 ```
-#import the package
+# Import the package
 import zapnAD as ad
 
-#Now x is a variable you can use to define your function.
-#The value passed into variable is it's value
-x = ad.Variable(10)
+# Initialize input variables
+variables = Variables(n_inputs=2)
+variables.set_values([3, 1])
+x, y = variables[0], variables[1]
 
-#Lets try a basic function
-func = x**2
-
-#Print the derivative of func evaluated at 10
-print(func.der)
+# Define the objective function
+function = Function(Fs=[x*y, x ** 2, x * sin(y)]) # 2 inputs, 3 outputs
+print(function.values())
+print(function.Jacobian()) # 3 by 2 matrix
 ```
 
 We also overloaded elementary trig. functions and exponential functions. You can implement them as follows.
 
 ```
-#define variable with value 1
-y = ad.Variable(1)
+# Define variable with value 1
+y = ad.Variables(n_inputs=1).set_values([1])[0]
 
-#use an exponential function to define the function
-func = y**2 + ad.exp(y)
+# Use an exponential function to define the objective function
+func = Function([y**2 + exp(y)])
 
-#view dervative of func evaluated at 1
-print(func.der)
+# View Jacobian evaluated at 1
+print(func.Jacobian())
 
 ```
 
