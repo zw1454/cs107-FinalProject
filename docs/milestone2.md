@@ -113,7 +113,6 @@ func = ad.Function([y**2 + ad.exp(y)])
 
 # View Jacobian evaluated at 1
 print(func.Jacobian())
-
 ```
 
 
