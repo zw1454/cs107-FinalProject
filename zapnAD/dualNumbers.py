@@ -123,7 +123,7 @@ class Variables:
         return self
 
 
-class Function():
+class Functions():
     def __init__(self, Fs):
         '''
         Input:
@@ -149,6 +149,31 @@ class Function():
         return np.vstack([f.get_gradient() for f in self.Fs])
 
 
+def auto_diff(functions, variable_values):        
+    '''
+        Differentiate a list of functions in respect to a list of values
+        
+        Input:
+            - functions: A list of python functions to represent vector functions. 
+            Each function takes a list of elements to represent variables, and outputs the defined function of those variables.
+            - variable_values: A list of integers or floats to represent each variable value.
+            
+        Returns:
+            A tuple which contains an numpy array of each function evaluated at the specified values,
+            and the Jacobian of the vector function evaluated at variable values.
+    '''
+
+    #Define variables as our variable types
+    variables = Variables(n_inputs=len(variable_values))
+    variables.set_values(variable_values)
+    
+    #Apply vector function to vector inputs
+    function = Functions(Fs = [f([v for v in variables]) for f in functions])
+    
+    return function.values(), function.Jacobian()
+    
+    
+
 if __name__ == "__main__":
     from overLoad import *
 
@@ -156,8 +181,16 @@ if __name__ == "__main__":
     variables.set_values([3, 1])
     x, y = variables[0], variables[1]
 
-    function = Function(Fs=[x*y, x ** 2, x * sin(y)]) # 2 inputs, 3 outputs
+    function = Functions(Fs=[x*y, x ** 2, x * (2+y)]) # 2 inputs, 3 outputs
     print(function.values())
     print()
     print(function.Jacobian()) # 3 by 2 matrix
-
+    
+    # We have a new way to differentiate functions
+    function1 = lambda v: v[0]*v[1]
+    function2 = lambda v: v[0]**2
+    function3 = lambda v: v[0]*(2+v[1])
+    
+    #This returns the same thing as before!!!
+    auto_diff([function1, function2, function3], variable_values=[3,1])
+    

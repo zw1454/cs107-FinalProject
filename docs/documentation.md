@@ -97,9 +97,9 @@ variables.set_values([3, 1])
 x, y = variables[0], variables[1]
 
 # Define the objective function
-function = ad.Function(Fs=[x*y, x ** 2, x + y]) # 2 inputs, 3 outputs
-print(function.values())
-print(function.Jacobian()) # 3 by 2 matrix
+functions = ad.Functions(Fs=[x*y, x ** 2, x + y]) # 2 inputs, 3 outputs
+print(functions.values())
+print(functions.Jacobian()) # 3 by 2 matrix
 ```
 
 We also overloaded elementary trig. functions and exponential functions. You can implement them as follows.
@@ -109,7 +109,7 @@ We also overloaded elementary trig. functions and exponential functions. You can
 y = ad.Variables(n_inputs=1).set_values([1])[0]
 
 # Use an exponential function to define the objective function
-func = ad.Function([y**2 + ad.exp(y)])
+func = ad.Functions([y**2 + ad.exp(y)])
 
 # View Jacobian evaluated at 1
 print(func.Jacobian())
@@ -210,13 +210,28 @@ For the elementary functions overloaded, `x` can be of type Variable, integer, o
 
 We have a dependency built on [numpy](https://numpy.org/). In this release, we issued a `requirements.txt` file which contains the dependency, and allows the user to install the package.
  
-## Licensing
-This software is licensed under the GNU General Public License. This Copyleft license allows users to use and modify our software and, as stated on the GNU GPL website, says that "anyone who redistributes the software, with or without changes, must pass along the freedom to further copy and change it." As beneficiaries of free software, we would like to makes ours free as well. 
+## Extension - Optimization 
 
-More on this particular license can be found here: https://www.gnu.org/licenses/gpl-3.0.html 
+
+
+## Broader Impact
+
+Zapn-AD creates computationally efficient methods for finding derivatives and optimizing functions. While many stakeholders in the science, engineering, and business field can benefit from less costly and accurate optimization, the user assumes some uncertainty when implementing Zapn-AD. We designed our software to be as precise and efficient as possible, and it is critical to discuss the further reaching impacts of our work both positive or negative.
+
+First, if the user is not familiar with differentiation or optimizations fundamental concepts, they undertake a fair amount in uncertainty when using Zapn-AD. To reduce such uncertainty, we provide full documentation of our software package. However, the implementation and interpretation of results could be skewed based on the user's prior knowledge. While we purposely designed our software to be intuitive, we recommend that the user fully assess their requisite knowledge and use case before reporting results. 
+
+Blind faith in any software results could lead to an erroneous implementation. While we do not anticipate incorrect or faulty results, any result applied in practice carries significant consequences. For example, consider the use of an optimizer to improve some engineering workflow which involves high resource cost. Erroneous implementation or interpretation could potentially stall such workflow causing a loss in human resources, time, or money. Therefore, we always suggest taking a step back to evaluate the situation and doing a logic check before enacting any change in the real-world based on our package's results.
+
+## Inclusivity Statement 
+
+Zapn-AD intends to provide automatic differentiation and optimization fairly for all people in the programming community. As beneficiaries of free, open-sources software, we invite anyone to use and contribute to our package. Diversity of opinion, background, and experience is welcomed and encouraged. We evaluate pull requests and additions to the package in an unbiased fashion. We recognize that our software documentation and code structure favor English speakers, and hope that Machine Translation services can ease this barrier.
 
 ## Future Features
 
-In this milestone, we successfully implemented  forward mode AD. This release only handles AD for scalar functions of scalars. For future work we will implement Forward mode AD with vector functions of vectors which will increase complexity. To make these changes, we plan on working more with numpy arrays and lists.
+SOMETHING NEW?
 
-We plan on extending our package by using forward mode AD to implement gradient based optimization methods , and writing backward mode AD into our library. To implement backward mode we will likely have to explicitly define the computational graph structure and build upon the Variable class we created for this release. 
+## Licensing
+
+This software is licensed under the GNU General Public License. This Copyleft license allows users to use and modify our software and, as stated on the GNU GPL website, says that "anyone who redistributes the software, with or without changes, must pass along the freedom to further copy and change it." As beneficiaries of free software, we would like to makes ours free as well. 
+
+More on this particular license can be found here: https://www.gnu.org/licenses/gpl-3.0.html 
