@@ -242,3 +242,18 @@ class TestFunctions:
         function = Functions(Fs=[x*y])
 
         assert (function.Jacobian() == np.array([[1, 3]])).all()
+
+
+class TestAutoDiff:
+
+    def test_one(self):
+        """Test Auto Diff Values"""
+        function1 = lambda v: v[0]*v[1]
+        values, J = auto_diff([function1], variable_values=[3,1])
+        assert (values == np.array([3])).all()
+    
+    def test_two(self):
+        """Test Auto Diff Jacobian"""
+        function1 = lambda v: v[0]*v[1]
+        values, J = auto_diff([function1], variable_values=[3,1])
+        assert (J == np.array([[1, 3]])).all()
