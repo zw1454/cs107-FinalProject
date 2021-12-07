@@ -34,25 +34,18 @@ def gradient_decent(function, init_variables, max_iter = 1000, learning_rate = 0
     curr_w = curr_w + delta_w
     
     #update function for new values
-    last_value = values
+    last_value = value
     value, jacobian = auto_diff([function], curr_w)
     
     #check for convergence or max tol
     i += 1
-    diff = np.abs(values - last_value)
+    diff = np.abs(value - last_value)
     
   return value, curr_w
+
 
 if __name__ == "__main__":
   function = lambda v: v[0]**2
   
-  gradient_decent(function, [1])
-  
-  values, jacobian = auto_diff([function], [4])
-  curr_w = np.array([4])
-  
-  dw = -.1*jacobian
-  
-  curr_w = curr_w + dw
-  val, jacobian = auto_diff([function], curr_w)
+  print(gradient_decent(function, [1]))
   
