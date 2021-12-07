@@ -50,7 +50,7 @@ Importantly, the gradient of *f* computed by forward mode (the derivatives of *f
 
 ## How to Use zapnAD
 
-### Getting Started
+### Getting Started Locally
 
 To run and test the package locally, please follow the below steps in the terminal:
 
@@ -80,8 +80,12 @@ $ pip install -r requirements.txt
  ```
  $ pip install -e .
  ```
- 
+
 Now, our package is installed. You can use `pip list` to check that your virtual environment installed our package.
+
+### Getting Started with [PyPI](https://pypi.org/)
+
+TO DO HERE
 
 ### Using Forward Mode
 
