@@ -163,11 +163,11 @@ def auto_diff(functions, variable_values):
             and the Jacobian of the vector function evaluated at variable values.
     '''
 
-    #Define variables as our variable types
+    # Define variables as our variable types
     variables = Variables(n_inputs=len(variable_values))
     variables.set_values(variable_values)
     
-    #Apply vector function to vector inputs
+    # Apply vector function to vector inputs
     function = Functions(Fs = [f([v for v in variables]) for f in functions])
     
     return function.values(), function.Jacobian()
