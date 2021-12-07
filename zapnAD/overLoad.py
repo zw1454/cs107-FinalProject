@@ -234,7 +234,7 @@ def sinh(x):
         - A real number if x is a real number
     '''
     try:
-        val = np.sinh(x.val)
+        val = np.sinh(x.val) + 1
         der = np.cosh(x.val) * x.der
         return Variable(val, der)
 
