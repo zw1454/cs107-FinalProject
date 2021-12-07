@@ -130,8 +130,8 @@ cs107-FinalProject/
 |   .gitignore
 │
 └───docs/
-│   │   milestone1.md
-|   |   milestone2_progress.md
+│   │   documentation.md
+|   |   milestone1.md
 |   |   milestone2.md
 |
 └───zapnAD/
@@ -143,6 +143,7 @@ cs107-FinalProject/
 └───tests/
 |   | test_dualNumber.py
 |   | test_overload.py
+|   | test_optimizers.py
 ```
 
 ### Modules
