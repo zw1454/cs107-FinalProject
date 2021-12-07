@@ -144,6 +144,38 @@ class TestVariable:
         
         assert res.val == 1
         assert res.der == np.array([0])
+    
+    def test_eighteen(self):
+        """Test __lt__"""
+        v1, v2 = self.setup_class()
+        assert v2 < v1
+
+    def test_nineteen(self):
+        """Test __le__"""
+        v1, v2 = self.setup_class()
+        assert v2 <= v1
+    
+    def test_twenty(self):
+        """Test __gt__"""
+        v1, v2 = self.setup_class()
+        assert v1 > v2
+    
+    def test_twenty_one(self):
+        """Test __ge__"""
+        v1, v2 = self.setup_class()
+        assert v1 >= v2
+    
+    def test_twenty_two(self):
+        """Test __eq__ """
+        v1 = Variable(5, np.array([1.5]))
+        v2 = Variable(5, np.array([-1]))
+
+        assert v1 == v2
+    
+    def test_twenty_three(self):
+        """Test __ne__"""
+        v1, v2 = self.setup_class()
+        assert v1 != v2
         
 
 class TestVariables:
