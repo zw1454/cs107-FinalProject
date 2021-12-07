@@ -184,9 +184,7 @@ The Variable class contains the following dunder methods and attributes.
  - `__truediv__(self, other)` divides the values and mimic the division derivative rule for derivatives by creating a new dual number class with updated attributes.
  - `__pow__(self, other)` gives the power of the values and mimic the power derivative rule for derivatives by creating a new dual number class with updated attributes.
  -`__neg__(self)` allows us to use the `-` operator to negate a Variable object.
-
  -`__sub__(self, other)` subtracts the values and derivatives by creating a new dual number class with updated attributed.
-
  -`__rsub__(self, other)` handles the case of constant subtraction to dual number and ordering issues.
  
 ### Elementary Functions
