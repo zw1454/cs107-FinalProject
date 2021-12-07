@@ -119,7 +119,6 @@ func = ad.Functions([y**2 + ad.exp(y)])
 print(func.Jacobian())
 ```
 
-
 ## Software Organization
 
 ### Directory Structure
@@ -158,7 +157,11 @@ Each module will server the following purpose:
 
 ### Test Suite
 
-We used pytest and pytest-cov for testing and coverage. We plan on using a continous integration platform, but for now we manually generated our coverage report and uploaded it to codecov to provide our code coverage.
+We used pytest and pytest-cov for testing and coverage. Our package is linked to a third party CI (GitHub Actions) and Codecov. If you want to generate a code coverage report locally after installing the package, please run the following command under the root folder.
+```
+cd tests && ./run_tests.sh pytest --cov=zapnAD --cov-report=xml
+```
+This will generate `coverage.xml` that contains the code coverage report.
 
 ### Distribution and Packaging 
 
