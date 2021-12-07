@@ -111,5 +111,11 @@ class TestVariable:
         v1 = Variable(-1, np.array([0.5])) # test in domain of function
         with pytest.raises(ValueError, match=r"Value < 0 not valid for square root"):
             sqrt(v1)
+    
+    def test_twelve(self):
+        """Test sinh"""
+        v1, v2 = self.setup_class()
+        assert sinh(v1).val == np.sinh(5)
+        assert sinh(v2) == np.sinh(4)
 
     
