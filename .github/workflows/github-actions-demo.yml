@@ -4,9 +4,9 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@final
+    - uses: actions/checkout@master
     - name: Setup Python
-      uses: actions/setup-python@final
+      uses: actions/setup-python@master
       with:
         python-version: 3.7
     - name: Generate coverage report
