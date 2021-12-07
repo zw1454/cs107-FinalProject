@@ -75,7 +75,7 @@ def adagrad(function, init_variables, max_iter=1000, learning_rate = 0.1, epsilo
     current_values = curr_w - delta_var 
     value, jacobian = auto_diff([function], current_values)
 
-  return value, current_value
+  return value, current_values
 
 if __name__ == "__main__":
   function = lambda v: v[0]**2
