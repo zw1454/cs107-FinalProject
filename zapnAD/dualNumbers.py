@@ -130,6 +130,9 @@ class Functions():
             - Fs: List of Variable objects. Each item represent one output dimension.
         '''
         self.Fs = Fs
+
+    def __len__(self):
+        return len(self.Fs)
     
     def values(self):
         '''

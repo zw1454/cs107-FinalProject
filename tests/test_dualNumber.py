@@ -179,12 +179,34 @@ class TestVariables:
         
         with pytest.raises(AssertionError):
             v_const.set_values([5, 5])
-        
-        
-    
-"""
-TODO:
 
-TestVariable test_three
-TestVariable test_fifteen check
-"""
+
+class TestFunctions:
+   
+    def test_one(self):
+        """Test creation of Function."""
+        variables = Variables(n_inputs=2)
+        variables.set_values([3, 1])
+        x, y = variables[0], variables[1]
+
+        function = Functions(Fs=[x*y, x ** 2, x * (2+y)])
+        
+        assert len(function) == 3
+   
+    def test_two(self):
+        """Test values of a Function"""
+        variables = Variables(n_inputs=2)
+        variables.set_values([3, 1])
+        x, y = variables[0], variables[1]
+        function = Functions(Fs=[x*y, x ** 2])
+
+        assert (function.values() == np.array([3, 9])).all()
+            
+    def test_three(self):
+        """Test Jacobian of a Function"""
+        variables = Variables(n_inputs=2)
+        variables.set_values([3, 1])
+        x, y = variables[0], variables[1]
+        function = Functions(Fs=[x*y])
+
+        assert (function.Jacobian() == np.array([[1, 3]])).all()
