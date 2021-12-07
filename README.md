@@ -1,5 +1,4 @@
-# Group #21 Automatic Differentiation ![build](https://github.com/cs107-zapn/cs107-FinalProject/actions/workflows/github-actions-demo.yml/badge.svg?branch=final)
-[![codecov](https://codecov.io/gh/cs107-zapn/cs107-FinalProject/branch/final/graph/badge.svg?token=AZN0X1SRCU)](https://codecov.io/gh/cs107-zapn/cs107-FinalProject)
+# Group #21 Automatic Differentiation ![build](https://github.com/cs107-zapn/cs107-FinalProject/actions/workflows/github-actions-demo.yml/badge.svg?branch=final)[![codecov](https://codecov.io/gh/cs107-zapn/cs107-FinalProject/branch/final/graph/badge.svg?token=AZN0X1SRCU)](https://codecov.io/gh/cs107-zapn/cs107-FinalProject)
 CS107 Project Team ZAPN
 
 Group Members:
