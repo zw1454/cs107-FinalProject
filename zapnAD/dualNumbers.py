@@ -4,24 +4,46 @@ class Variable:
     def __init__(self, value, derivatives=None) -> None:
         '''
         Stores the current value and derivative of this variable.
+
         Input:
-            - self.val: current value
-            - self.der: full derivative
+            - self.val: int or float, current value
+            - self.der: ndarray, full derivative
         '''
         self.val = value
         self.der = derivatives
 
     def __str__(self):
+        '''
+        Returns:
+            - str, String representation of the variable
+        '''
         return f"Value {self.val}\n" + \
             f"Full Jacobian {self.der}\n"
     
     def get_value(self):
+        '''
+        Returns:
+            - int or float, current value of the variable
+        '''
         return self.val
     
     def get_gradient(self):
+        '''
+        Returns:
+            - ndarray of size (n, ), current full derivative of the variable (Jacobian)
+        '''
         return self.der
     
     def __mul__(self, other):
+        '''
+        Compute the new variable with updated value and derivative after multiplication.
+
+        Input:
+            - other: int or float or Variable instance
+        
+        Returns:
+            - Variable instance
+        '''
         # Product derivative rule for two Variable types
         try:
             new_f = Variable(self.val * other.val)
@@ -33,9 +55,28 @@ class Variable:
         return new_f
     
     def __rmul__(self, other):
+        '''
+        Special dunder method to handle the case of int/float * Variable instance.
+        Convert to Variable * int/float and then handled by __mul__(self, other).
+
+        Input:
+            - other: int or float or Variable instance
+        
+        Returns:
+            - Variable instance
+        '''
         return self.__mul__(other)
     
     def __add__(self, other):
+        '''
+        Compute the new variable with updated value and derivative after addition.
+
+        Input:
+            - other: int or float or Variable instance
+        
+        Returns:
+            - Variable instance
+        '''
         # Sum of derivatives for two Variable types
         try:
             new_f = Variable(self.val + other.val)
@@ -46,41 +87,144 @@ class Variable:
             new_f.der = self.der
         return new_f
     
-    # When we use the "-" operator dunder
     def __neg__(self):
+        '''
+        Special dunder method to handle the negation of a Variable instance.
+        
+        Returns:
+            - Variable instance
+        '''
         return Variable(-1*self.val, -1*self.der)
 
     def __radd__(self, other):
+        '''
+        Special dunder method to handle the case of int/float + Variable instance.
+        Convert to Variable + int/float and then handled by __add__(self, other).
+
+        Input:
+            - other: int or float or Variable instance
+        
+        Returns:
+            - Variable instance
+        '''
         return self.__add__(other)
 
     def __sub__(self, other):
+        '''
+        Compute the new variable with updated value and derivative after substraction.
+
+        Input:
+            - other: int or float or Variable instance
+        
+        Returns:
+            - Variable instance
+        '''
         # Subtraction using the dunder methods above
         return self + (-1*other)
 
     def __rsub__(self, other):
+        '''
+        Special dunder method to handle the case of int/float - Variable instance.
+        Convert to int/float + (-Variable) and then handled by __radd__ and __neg__.
+
+        Input:
+            - other: int or float or Variable instance
+        
+        Returns:
+            - Variable instance
+        '''
         return other + (-1*self)
     
     def __pow__(self, p):
+        '''
+        Compute the new variable with updated value and derivative after powering.
+
+        Input:
+            - p: int or float
+        
+        Returns:
+            - Variable instance
+        '''
         new_f = Variable(self.val ** p)
         new_f.der = p * self.val ** (p - 1) * self.der
         return new_f
 
     def __lt__(self, other):
+        '''
+        Comparison operator between Variable instances based on current values.
+
+        Input:
+            - other: Variable instance
+        
+        Returns:
+            - boolean, True if self.val < other.val
+        '''
+        assert type(other) is Variable
         return self.val < other.val 
 
     def __le__(self, other):
+        '''
+        Comparison operator between Variable instances based on current values.
+
+        Input:
+            - other: Variable instance
+        
+        Returns:
+            - boolean, True if self.val <= other.val
+        '''
+        assert type(other) is Variable
         return self.val <= other.val 
 
     def __gt__(self, other):
+        '''
+        Comparison operator between Variable instances based on current values.
+
+        Input:
+            - other: Variable instance
+        
+        Returns:
+            - boolean, True if self.val > other.val
+        '''
+        assert type(other) is Variable
         return self.val > other.val 
 
     def __ge__(self, other):
+        '''
+        Comparison operator between Variable instances based on current values.
+
+        Input:
+            - other: Variable instance
+        
+        Returns:
+            - boolean, True if self.val >= other.val
+        '''
+        assert type(other) is Variable
         return self.val >= other.val 
 
     def __eq__(self, other):
+        '''
+        Comparison operator between Variable instances based on current values.
+
+        Input:
+            - other: Variable instance
+        
+        Returns:
+            - boolean, True if self.val == other.val
+        '''
+        assert type(other) is Variable
         return self.val == other.val 
 
     def __ne__(self, other):
+        '''
+        Comparison operator between Variable instances based on current values.
+
+        Input:
+            - other: Variable instance
+        
+        Returns:
+            - boolean, True if self.val != other.val
+        '''
+        assert type(other) is Variable
         return self.val != other.val    
         
         
@@ -95,12 +239,30 @@ class Variables:
         self.variables = []
     
     def __len__(self):
+        '''
+        Returns the number of input variables.
+
+        Returns:
+            - int, number of input variables
+        '''
         return self.n_inputs
     
     def __iter__(self):
+        '''
+        Helper method to make a Variables instance iterable.
+
+        Returns:
+            - iterable, iterator of Variables
+        '''
         return iter(self.variables)
     
     def __getitem__(self, key):
+        '''
+        Helper method to make a Variables instance subscribable by index.
+
+        Returns:
+            - Variable instance
+        '''
         assert key < len(self.variables), "Key Error"
         return self.variables[key]
     
@@ -137,6 +299,7 @@ class Functions():
     def values(self):
         '''
         Returns the current values of each output
+
         Returns:
             - ndarray of size len(self.Fs)
         '''
@@ -146,6 +309,7 @@ class Functions():
     def Jacobian(self):
         '''
         Computes the Jacobian matrix.
+
         Returns:
             - ndarray of shape (n_outputs, n_inputs)
         '''
