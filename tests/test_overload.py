@@ -140,7 +140,7 @@ class TestVariable:
         """Test to make sure we arent doing a Log to a negative number"""
         v1, v2 = self.setup_class()
         neg = -2
-        with pytest.raises(ValueError, match="Log Base Must be greater than or equal to 1"):
+        with pytest.raises(ValueError, match="Log base must be greater than or equal to 1"):
             log(v1, neg)
         
     def test_sixteen(self):
@@ -149,6 +149,6 @@ class TestVariable:
         base = 2
         assert exp(v1,base).val == base**5
         assert pytest.approx(exp(v1,base).der[0], 1e-7) == (5*base**(5-1))*1.5
-        assert exp(v2) == base**4
+        assert exp(v2, base) == base**4
 
     
