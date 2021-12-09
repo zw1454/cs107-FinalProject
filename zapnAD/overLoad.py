@@ -151,10 +151,7 @@ def log(x, base=None):
     If base is not None, and is some other base, returns the log of 
     that base function for the Variable object, otherwise defaults 
     on it being a real number and apply the operation similarly. 
-    '''
-    if base < 1:
-        raise ValueError("Log base must be greater than or equal to 1")
-        
+    '''        
     if base is None: # natural number case:
         try:
             val = np.log(x.val)
@@ -165,6 +162,8 @@ def log(x, base=None):
             return np.log(x)
     
     else: 
+        if base < 1:
+            raise ValueError("Log base must be greater than or equal to 1")
         try: 
             val = np.log(x.val) / np.log(base)
             der = (1/(x.val * np.log(base))) * x.der
