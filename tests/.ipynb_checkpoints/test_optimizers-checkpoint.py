@@ -13,18 +13,21 @@ class TestOptimizers():
     
     def test_one_a(self):
         """test gradient decsent for function 1"""
+        f1, f2 = self.setup_class()
         r1, r2 = gradient_decent(f1, [1])
         assert r1 == pytest.approx(0, .001)
         assert r2 == pytest.approx(0, .001)
         
     def test_two_a(self):
         """test momentum for function 1"""
+        f1, f2 = self.setup_class()
         r1, r2 = momentum_gd(f1, [1])
         assert r1 == pytest.approx(0, .001)
         assert r2 == pytest.approx(0, .001)
         
     def test_three_a(self):
         """test momentum for function 1"""
+        f1, f2 = self.setup_class()
         r1, r2 = adagrad(f1, [1])
         assert r1 == pytest.approx(0, .001)
         assert r2 == pytest.approx(0, .001)
