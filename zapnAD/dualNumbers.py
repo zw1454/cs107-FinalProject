@@ -341,23 +341,23 @@ def auto_diff(functions, variable_values):
     
     
 
-# if __name__ == "__main__":
-#     from overLoad import *
+if __name__ == "__main__":
+    from overLoad import *
 
-#     variables = Variables(n_inputs=2)
-#     variables.set_values([3, 1])
-#     x, y = variables[0], variables[1]
+    variables = Variables(n_inputs=2)
+    variables.set_values([3, 1])
+    x, y = variables[0], variables[1]
 
-#     function = Functions(Fs=[x*y, x ** 2, x * (2+y)]) # 2 inputs, 3 outputs
-#     print(function.values())
-#     print()
-#     print(function.Jacobian()) # 3 by 2 matrix
+    function = Functions(Fs=[x*y, x ** 2, x * (2+y)]) # 2 inputs, 3 outputs
+    print(function.values())
+    print()
+    print(function.Jacobian()) # 3 by 2 matrix
     
-#     # We have a new way to differentiate functions
-#     function1 = lambda v: v[0]*v[1]
-#     function2 = lambda v: v[0]**2
-#     function3 = lambda v: v[0]*(2+v[1])
+    # We have a new way to differentiate functions
+    function1 = lambda v: v[0]*v[1]
+    function2 = lambda v: v[0]**2
+    function3 = lambda v: v[0]*(2+v[1])
     
-#     #This returns the same thing as before!!!
-#     auto_diff([function1, function2, function3], variable_values=[3,1])
+    #This returns the same thing as before!!!
+    auto_diff([function1, function2, function3], variable_values=[3,1])
     

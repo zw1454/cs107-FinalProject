@@ -34,6 +34,10 @@ def gradient_decent(function, init_variables, learning_rate = 0.1, max_iter = 10
         curr_w = curr_w + delta_w
     
         #update function for new values
+        #handle case for weight array mix up
+        if len(curr_w) != len(init_variables):
+            curr_w = curr_w[0]
+        
         last_value = value
         value, jacobian = auto_diff([function], curr_w)
     
@@ -82,6 +86,11 @@ def momentum_gd(function, init_variables, momentum = 0.8, learning_rate = 0.1, m
     
         #update function for new values
         last_value = value
+        
+        #handle case for weight array mix up
+        if len(curr_w) != len(init_variables):
+            curr_w = curr_w[0]
+        
         value, jacobian = auto_diff([function], curr_w)
     
         #check for convergence or max tol
@@ -125,14 +134,18 @@ def adagrad(function, init_variables, learning_rate = 0.1, epsilon=1e-8, max_ite
         #update weights
         curr_w = curr_w - delta_var 
         
-        #take a step
-        last_value = value
+        #handle case for weight array mix up
+        if len(curr_w) != len(init_variables):
+            curr_w = curr_w[0]
+            
         value, jacobian = auto_diff([function], curr_w)
 
     return value, curr_w
 
 if __name__ == "__main__":
     function = lambda v: v[0]**2
+    f2 = lambda v: v[0]**2 + v[1]**2
+    f3 = lambda v: v[0]**2 + v[1]**2 + v[2]**2
   
     print(gradient_decent(function, [1]))
     
@@ -140,3 +153,16 @@ if __name__ == "__main__":
     
     print(adagrad(function, [1]))
   
+    r1, r2 = gradient_decent(f2, [1,1])
+    print(r1)
+    print(r2)
+    r2[0]
+
+    r1, r2 = momentum_gd(f2, [1,1])
+    print(r1)
+    print(r2)
+    r2[0]
+
+    r1, r2 = adagrad(f3, [1,1,1])
+    print(r1)
+    print(r2)
