@@ -1,7 +1,7 @@
 from dualNumbers import *
 import numpy as np
 
-def gradient_decent(function, init_variables, learning_rate = 0.1, max_iter = 1000, tol = 0.0001):
+def gradient_decent(function, init_variables, learning_rate = 0.1, max_iter = 1000,  tol = 1e-8):
     """
     Function that optimizes a python function using gradient decsent.
   
@@ -22,21 +22,18 @@ def gradient_decent(function, init_variables, learning_rate = 0.1, max_iter = 10
     # initialize 
     value, jacobian = auto_diff([function], init_variables)
     curr_w = np.array(init_variables)
+    array_shape = curr_w.shape
     i = 0
     diff = 1
   
-    while i<max_iter or diff>tol:
+    while i<max_iter and diff>tol:
     
         #calc change in weights
         delta_w = -learning_rate * jacobian
     
         #update weigths
-        curr_w = curr_w + delta_w
-    
-        #update function for new values
-        #handle case for weight array mix up
-        if len(curr_w) != len(init_variables):
-            curr_w = curr_w[0]
+        curr_w = curr_w + delta_w.reshape(array_shape)
+
         
         last_value = value
         value, jacobian = auto_diff([function], curr_w)
@@ -47,7 +44,7 @@ def gradient_decent(function, init_variables, learning_rate = 0.1, max_iter = 10
     
     return value, curr_w
 
-def momentum_gd(function, init_variables, momentum = 0.8, learning_rate = 0.1, max_iter = 1000, tol = 0.0001):
+def momentum_gd(function, init_variables, momentum = 0.8, learning_rate = 0.1, max_iter = 1000, tol = 1e-8):
     """
     Function that optimizes a python function using gradient descent and momentum.
   
@@ -73,23 +70,21 @@ def momentum_gd(function, init_variables, momentum = 0.8, learning_rate = 0.1, m
     #initialize 
     value, jacobian = auto_diff([function], init_variables)
     curr_w = np.array(init_variables)
+    array_shape = curr_w.shape
     i = 0
     diff = 1
-    delta_w = np.zeros(len(init_variables))
+    delta_w = np.zeros(array_shape)
     
-    while i<max_iter or diff>tol:
+    while i<max_iter and diff>tol:
         #calc change in weights
         delta_w = -learning_rate*jacobian + momentum * delta_w
     
         #update weigths
+        delta_w = delta_w.reshape(array_shape)
         curr_w = curr_w + delta_w
     
         #update function for new values
         last_value = value
-        
-        #handle case for weight array mix up
-        if len(curr_w) != len(init_variables):
-            curr_w = curr_w[0]
         
         value, jacobian = auto_diff([function], curr_w)
     
@@ -100,11 +95,11 @@ def momentum_gd(function, init_variables, momentum = 0.8, learning_rate = 0.1, m
     return value, curr_w
 
 
-def adam(function, init_variables, max_iter = 1000, tol=0.0001, b_1=0.9, b_2=0.999, eror=10e-8, learning_rate=0.01):
-  """
-  Function that optimizes a python function using Adaptive Moment Estimation (Adam).
-  
-  Inputs:
+def adam(function, init_variables, max_iter = 1000,  tol = 1e-8, b_1=0.9, b_2=0.999, error=10e-8, learning_rate=0.01):
+    """
+    Function that optimizes a python function using Adaptive Moment Estimation (Adam).
+    
+    Inputs:
     - function: A python function that takes a list of elements to represent variables,
                 and outputs the defined function of those variables.
     - init_variables: A list of values to evaluate the function at initially.
@@ -114,39 +109,47 @@ def adam(function, init_variables, max_iter = 1000, tol=0.0001, b_1=0.9, b_2=0.9
           by less than this tolerance the function finishes.
     - b_1: ADAM optimizer hyperparameter controlling first moment term
     - b_2: ADAM optimizer hyperparameter controlling second moment term
-    - e: ADAM optimizer hyperparameter preventing division by 0
+    - error: ADAM optimizer hyperparameter preventing division by 0
  
-   Outputs:
+    Outputs:
     - A tuple of the optimal value and the and the inputs to the function that yielded
       the value
     """
 
     #initialize 
-    value, der = auto_diff([function], init_variables)
+    val, der = auto_diff([function], init_variables)
+
     curr_w = np.array(init_variables)
+    array_shape = curr_w.shape
     diff = 1
     
     m, v, m_corr, v_corr = 0, 0, 0, 0
+    i = 0
     
-    
-    while i<max_iter or diff>tol:
+    while i<max_iter and diff>tol:
         
         m = b_1*m + (1-b_1)*der
-        m_corr = m/(1-np.power(b_1,i+1))
+        m_corr = m/(1-np.power(b_1, (i+1)))
+
         
         v = b_2*v + (1-b_2)*der**2
-        v_corr = v/(1-np.power(b_2,i+1))
-        
+        v_corr = v/(1-np.power(b_2, i+1))
+
         # update derivative
-        delta_w = learning_rate*(m_corr/(np.sqrt(v_corr)+error))
+        delta_w = np.array(learning_rate*(m_corr/(np.sqrt(v_corr)+error))).reshape(array_shape)
         curr_w = curr_w - delta_w
 
+        prev_val = val
         val, der = auto_diff([function], curr_w)
+
+        i += 1
+        diff = np.abs(val - prev_val)
+
 
     return val, curr_w
 
                                        
-def adagrad(function, init_variables, learning_rate = 0.1, epsilon=1e-8, max_iter = 1000):
+def adagrad(function, init_variables, learning_rate = 0.1, epsilon=1e-8, max_iter = 1000, tol = 1e-8):
     """
     Function that optimizes a python function via the adagrad algorithm. 
   
@@ -158,6 +161,8 @@ def adagrad(function, init_variables, learning_rate = 0.1, epsilon=1e-8, max_ite
       - learning_rate: The learning rate of the gradient decscent algorithm.
       - epsilon: smoothing term that avoids division by zero. Should be resonably small.
                 default set to 1e-8
+      - tol: Tolerence used for convergence criteria. When the function evaluation changes
+          by less than this tolerance the function finishes.
       
       Outputs:
       - A tuple of the optimal value and the and the inputs to the function that yielded
@@ -167,49 +172,33 @@ def adagrad(function, init_variables, learning_rate = 0.1, epsilon=1e-8, max_ite
     # Repeat this within the while loop 
     value, jacobian = auto_diff([function], init_variables)
     curr_w = np.array(init_variables)
+    array_shape = curr_w.shape
     epsilon = epsilon
     
     # We then need to calculate the square of the partial derivative of each 
     # variable and add them to the running sum of these values.
     gradientsum = 0 
+    
+    # stopping variables
+    diff = 1
+    i = 0
 
-    for i in range(max_iter):
+    while i<max_iter and diff>tol: 
         #calc delta
         gradientsum = gradientsum + jacobian**2
         delta_var = (learning_rate * jacobian) / np.sqrt(gradientsum + epsilon)
+        delta_var = delta_var.reshape(array_shape)
         
         #update weights
         curr_w = curr_w - delta_var 
-        
-        #handle case for weight array mix up
-        if len(curr_w) != len(init_variables):
-            curr_w = curr_w[0]
             
+        prev_value = value
         value, jacobian = auto_diff([function], curr_w)
+        
+        i += 1
+        diff = np.abs(value - prev_value)
 
     return value, curr_w
 
 if __name__ == "__main__":
-    function = lambda v: v[0]**2
-    f2 = lambda v: v[0]**2 + v[1]**2
-    f3 = lambda v: v[0]**2 + v[1]**2 + v[2]**2
-  
-    print(gradient_decent(function, [1]))
-    
-    print(momentum_gd(function, [1]))
-    
-    print(adagrad(function, [1]))
-  
-    r1, r2 = gradient_decent(f2, [1,1])
-    print(r1)
-    print(r2)
-    r2[0]
-
-    r1, r2 = momentum_gd(f2, [1,1])
-    print(r1)
-    print(r2)
-    r2[0]
-
-    r1, r2 = adagrad(f3, [1,1,1])
-    print(r1)
-    print(r2)
+    pass
