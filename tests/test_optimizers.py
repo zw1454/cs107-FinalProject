@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from zapnAD.optmizers import *
+from zapnAD.optimizers import *
 
 class TestOptimizers():
     
