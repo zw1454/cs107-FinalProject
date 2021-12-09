@@ -99,53 +99,6 @@ def momentum_gd(function, init_variables, momentum = 0.8, learning_rate = 0.1, m
     
     return value, curr_w
 
-
-def adam(function, init_variables, max_iter = 1000, tol=0.0001, b_1=0.9, b_2=0.999, eror=10e-8, learning_rate=0.01):
-  """
-  Function that optimizes a python function using Adaptive Moment Estimation (Adam).
-  
-  Inputs:
-    - function: A python function that takes a list of elements to represent variables,
-                and outputs the defined function of those variables.
-    - init_variables: A list of values to evaluate the function at initially.
-    - max_iter: The max iterations the algorithm can run.
-    - learning_rate: The learning rate of the gradient decscent algorith.
-    - tol: Tolerence used for convergence criteria. When the function evaluation changes
-          by less than this tolerance the function finishes.
-    - b_1: ADAM optimizer hyperparameter controlling first moment term
-    - b_2: ADAM optimizer hyperparameter controlling second moment term
-    - e: ADAM optimizer hyperparameter preventing division by 0
- 
-   Outputs:
-    - A tuple of the optimal value and the and the inputs to the function that yielded
-      the value
-    """
-
-    #initialize 
-    value, der = auto_diff([function], init_variables)
-    curr_w = np.array(init_variables)
-    diff = 1
-    
-    m, v, m_corr, v_corr = 0, 0, 0, 0
-    
-    
-    while i<max_iter or diff>tol:
-        
-        m = b_1*m + (1-b_1)*der
-        m_corr = m/(1-np.power(b_1,i+1))
-        
-        v = b_2*v + (1-b_2)*der**2
-        v_corr = v/(1-np.power(b_2,i+1))
-        
-        # update derivative
-        delta_w = learning_rate*(m_corr/(np.sqrt(v_corr)+error))
-        curr_w = curr_w - delta_w
-
-        val, der = auto_diff([function], curr_w)
-
-    return val, curr_w
-
-                                       
 def adagrad(function, init_variables, learning_rate = 0.1, epsilon=1e-8, max_iter = 1000):
     """
     Function that optimizes a python function via the adagrad algorithm. 
