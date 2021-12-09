@@ -65,11 +65,7 @@ def arcsin(x):
 
     except AttributeError:
         return np.arcsin(x)
-    
-    except ZeroDivisionError:
-        val = np.arcsin(x.val)
-        der = float('Inf')
-        return Variable(val, der)
+
 
 def arccos(x):
     '''
@@ -86,11 +82,7 @@ def arccos(x):
 
     except AttributeError:
         return np.arccos(x)
-    
-    except ZeroDivisionError:
-        val = np.arccos(x.val)
-        der = float('Inf')
-        return Variable(val, der)
+
 
 def arctan(x):
     '''
