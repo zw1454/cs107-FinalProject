@@ -1,5 +1,5 @@
 import numpy as np
-from dualNumbers import Variable, Variables
+from .dualNumbers import Variable, Variables
 
 __all__ = ['sin', 'cos','tan','arcsin', 'arccos', 'arctan', 'exp', 'log', 'log2',
         'log10', 'sqrt', 'sinh', 'cosh', 'tanh']
