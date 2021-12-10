@@ -53,7 +53,7 @@ Importantly, the gradient of *f* computed by forward mode (the derivatives of *f
 
 ## Getting Started
 
-### Installation with [PyPI](https://pypi.org/)
+### Installation with [PyPI](https://pypi.org/project/zapnAD/)
 
 Installing the package through PyPI is very simple, please follow the below steps in the terminal:
 
@@ -73,35 +73,6 @@ Installing the package through PyPI is very simple, please follow the below step
  $ pip install zapnAD
  ```
 Now, our package is installed. You can use `pip list` to check that your virtual environment installed our package.
-
-### Local Installation with Git
-
-To run and test the package locally, please follow the below steps in the terminal:
-
- 1. Once again we recommend creating a virtual environment.
-
- ```
- $ conda create -n zapn_test python=3.6
-$ conda activate zapn_test
- ```
-
- 3. Clone the repository from Github
- ```
- $ git clone https://github.com/cs107-zapn/cs107-FinalProject.git
- ```
-
- 4. Change the directory to the project root directory and install the dependencies.
- ```
- $ cd cs107-FinalProject
-$ pip install -r requirements.txt
- ```
-
- 5. Install our package. This will call `setup.py` to build our package.
- ```
- $ pip install -e 
- ```
-
-Once again, you can use `pip list` to check that your virtual environment installed our package.
 
 ## Using Forward Mode
 
@@ -203,7 +174,7 @@ Each module will serve the following purpose:
 
 ### Test Suite
 
-We used pytest and pytest-cov for testing and coverage. Our package is linked to a third party CI (GitHub Actions) and Codecov. If you want to generate a code coverage report locally after installing the package through github, please run the following command under the root folder.
+We used pytest and pytest-cov for testing and coverage. Our package is linked to a third party CI (GitHub Actions) and Codecov. If you want to generate a code coverage report locally after cloning the repo from github, please run the following command under the root folder.
 ```
 cd tests && ./run_tests.sh pytest --cov=zapnAD --cov-report=xml
 ```
@@ -211,7 +182,7 @@ This will generate `coverage.xml` that contains the code coverage report.
 
 ### Distribution and Packaging 
 
-The package is distributed via PyPi and github. The user can download and install the package by following the instructions in [Getting Started](#getting-started).
+The package is distributed via PyPi. The user can download and install the package by following the instructions in [Getting Started](#getting-started).
 
 ## Implementation 
 
@@ -285,7 +256,7 @@ For the elementary functions overloaded, `x` can be of type Variable, integer, o
 
 ### Dependencies
 
-We have a dependency built on [numpy](https://numpy.org/). When installing through PyPI, the `setup.cfg` handles this dependency. For users who prefer to install through git, we issued a `requirements.txt` file which contains the dependency and allows the user to install the package.
+We have a dependency built on [numpy](https://numpy.org/). When installing through PyPI, the `setup.py` handles this dependency.
  
 ## Extension - Optimization 
 
