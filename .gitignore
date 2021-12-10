@@ -20,3 +20,4 @@ wheels/
 *.spec 
 build/
 .Rhistory
+.ipynb_checkpoints
