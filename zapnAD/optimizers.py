@@ -1,6 +1,9 @@
 from dualNumbers import *
 import numpy as np
 
+__all__ = ['gradient_decent', 'momentum_gd', 'adam', 'adagrad']
+
+
 def gradient_decent(function, init_variables, learning_rate = 0.1, max_iter = 1000,  tol = 1e-8):
     """
     Function that optimizes a python function using gradient decsent.

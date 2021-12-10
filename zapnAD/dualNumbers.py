@@ -1,5 +1,7 @@
 import numpy as np
 
+__all__ = ['Variable', 'Variables', 'Functions', 'auto_diff']
+
 class Variable:
     def __init__(self, value, derivatives=None) -> None:
         '''
