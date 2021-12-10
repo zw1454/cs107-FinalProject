@@ -7,7 +7,7 @@ setup(
   license='GPL-3.0',
   description = 'A package for automatic differentiation', 
   url = 'https://github.com/cs107-zapn/cs107-FinalProject/tree/main',
-  download_url = 'https://github.com/cs107-zapn/cs107-FinalProject/archive/refs/tags/v0.1.tar.gz',    # I explain this later on
+  download_url = 'https://github.com/cs107-zapn/cs107-FinalProject/archive/refs/tags/v0.2.tar.gz',    # I explain this later on
   keywords = ['optimization', 'autodifferntiation'], 
   install_requires=[         
           'numpy'
