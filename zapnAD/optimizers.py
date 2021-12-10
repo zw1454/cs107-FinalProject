@@ -1,207 +1,169 @@
 from dualNumbers import *
 import numpy as np
 
-__all__ = ['gradient_decent', 'momentum_gd', 'adam', 'adagrad']
+__all__ = ['Optimizer', 'GradientDescentOptimizer', 'MomentumOptimizer', 'AdaGradOptimizer', 'AdamOptimizer']
 
-
-def gradient_decent(function, init_variables, learning_rate = 0.1, max_iter = 1000,  tol = 1e-8):
-    """
-    Function that optimizes a python function using gradient decsent.
-  
-    Inputs:
-      - function: A python function that takes a list of elements to represent variables,
-                and outputs the defined function of those variables.
-      - init_variables: A list of values to evaluate the function at initially.
-      - max_iter: The max iterations the algorithm can run. Default to 1000.
-      - learning_rate: The learning rate of the gradient decscent algorith. Default set to 0.1.
-      - tol: Tolerence used for convergence criteria. When the function evaluation changes
-          by less than this tolerance the function finishes. Default set to 0.0001.
-          
-    Outputs:
-      - A tuple of the optimal value and the and the inputs to the function that yielded
-        the value
-    """
-  
-    # initialize 
-    value, jacobian = auto_diff([function], init_variables)
-    curr_w = np.array(init_variables)
-    array_shape = curr_w.shape
-    i = 0
-    diff = 1
-  
-    while i<max_iter and diff>tol:
+class Optimizer():
+    """Class representing an optimizer of a python function."""
     
-        #calc change in weights
-        delta_w = -learning_rate * jacobian
-    
-        #update weigths
-        curr_w = curr_w + delta_w.reshape(array_shape)
-
+    def __init__(self,  learning_rate=0.1, max_iter = 1000, tol = 1e-8):
         
-        last_value = value
-        value, jacobian = auto_diff([function], curr_w)
-    
-        #check for convergence or max tol
-        i += 1
-        diff = np.abs(value - last_value)
-    
-    return value, curr_w
-
-def momentum_gd(function, init_variables, momentum = 0.8, learning_rate = 0.1, max_iter = 1000, tol = 1e-8):
-    """
-    Function that optimizes a python function using gradient descent and momentum.
+        """
+          Initializes the optimizer parameters
   
-    Inputs:
-    - function: A python function that takes a list of elements to represent variables,
+          Arguments:
+          - max_iter: The max iterations the algorithm can run. Default to 1000.
+          - learning_rate: The learning rate of the gradient decscent algorith. Default set to 0.1.
+          - tol: Tolerence used for convergence criteria. When the function evaluation changes
+                 by less than this tolerance the function finishes. Default set to 1e-8
+          
+        """
+
+        self.max_iter = max_iter
+        self.learning_rate = learning_rate
+        self.tol = 1e-8
+        self.delta_ws = []
+        self.prev_values = []
+        self.prev_jacobians = []
+        
+
+    def _step(self):
+        """The calculation done at each step of the optimizer"""
+        raise NotImplementedError
+        
+        
+    def optimize(self, function, init_variables):
+        """Optimizes the given function.
+        
+        Arguments:
+        - function: A python function that takes a list of elements to represent variables,
                 and outputs the defined function of those variables.
-    - init_variables: A list of values to evaluate the function at initially.
-    - momentum: term to stabilize learning toward the global minimum. Must be set [0,1].
+        - init_variables: A list of values to evaluate the function at initially.
+        
+        Returns:
+        value at optimum
+        """
+
+        curr_w = np.array(init_variables)
+        array_shape = curr_w.shape
+        self.delta_ws.append(np.zeros(array_shape))
+
+        val, der = auto_diff([function], curr_w)
+        self.prev_values.append(val)
+        self.prev_jacobians.append(der)
+        
+        self.i = 0
+        self.diff  = 1
+        
+        while self.i < self.max_iter and self.diff > self.tol:
+            
+            delta_w = self._step().reshape(array_shape)
+            self.delta_ws.append(delta_w)
+            
+            curr_w = curr_w + delta_w
+            
+            val, der = auto_diff([function], curr_w)
+            
+            self.i += 1
+            self.diff = np.abs(val - self.prev_values[-1])
+            
+            self.prev_values.append(val)
+            self.prev_jacobians.append(der)
+            
+        return val, curr_w
+    
+    def get_values(self):
+        """Returns array of the function value at each step, size n_steps x 1"""
+        return np.vstack(self.prev_values)
+    
+    def get_jacobians(self):
+        """Returns array of the gradient at each step, size n_steps x n_variables"""
+        return np.vstack(self.prev_jacobians)
+    
+    def get_step_deltas(self):
+        """Returns array of the step size at each step, size n_steps x n_variables"""
+        return np.vstack(self.delta_ws)
+    
+class GradientDescentOptimizer(Optimizer):
+    
+    def __init__(self,  learning_rate=0.1, max_iter = 1000, tol=1e-8):
+        """Initializes parameters for the gradient descent optimizer"""
+        
+        super().__init__(learning_rate=learning_rate, max_iter = max_iter, tol=tol)
+        
+    def _step(self):
+        """Defines the delta in independent variable values at a given step for gradient descent."""
+        #calc change in weights
+        return -self.learning_rate * self.prev_jacobians[-1]
+    
+class MomentumOptimizer(Optimizer):
+    
+    def __init__(self, momentum=0.8, learning_rate=0.1, max_iter = 1000, tol=1e-8):  
+        """Initializes parameters for the Momentum optimizer
+        
+        Arguments:
+        - momentum: term to stabilize learning toward the global minimum. Must be set [0,1].
                 Default set to 0.9.
-    - max_iter: The max iterations the algorithm can run. Default to 1000.
-    - learning_rate: The learning rate of the gradient decscent algorith. Default set to 0.1.
-    - tol: Tolerence used for convergence criteria. When the function evaluation changes
-          by less than this tolerance the function finishes. Default set to 0.0001.
-          
-    Outputs:
-    - A tuple of the optimal value and the and the inputs to the function that yielded
-      the value
-    """
-    #Check to ensure momentum is between 0 and 1
-    if momentum < 0 or momentum > 1:
-        raise ValueError("Please ensure momentum factor is [0,1].")
-    
-    #initialize 
-    value, jacobian = auto_diff([function], init_variables)
-    curr_w = np.array(init_variables)
-    array_shape = curr_w.shape
-    i = 0
-    diff = 1
-    delta_w = np.zeros(array_shape)
-    
-    while i<max_iter and diff>tol:
+        """ 
+        
+        super().__init__(learning_rate=learning_rate, max_iter = max_iter, tol=tol)
+        self.momentum = momentum
+        
+    def _step(self):
+        """Defines the delta in independent variable values at a given step for the momentum optimizer."""
+        
         #calc change in weights
-        delta_w = -learning_rate*jacobian + momentum * delta_w
-    
-        #update weigths
-        delta_w = delta_w.reshape(array_shape)
-        curr_w = curr_w + delta_w
-    
-        #update function for new values
-        last_value = value
+        return -self.learning_rate*self.prev_jacobians[-1] + self.momentum * self.delta_ws[-1]
         
-        value, jacobian = auto_diff([function], curr_w)
-    
-        #check for convergence or max tol
-        i += 1
-        diff = np.abs(value - last_value)
-    
-    return value, curr_w
-
-
-def adam(function, init_variables, max_iter = 1000,  tol = 1e-8, b_1=0.9, b_2=0.999, error=10e-8, learning_rate=0.01):
-    """
-    Function that optimizes a python function using Adaptive Moment Estimation (Adam).
-    
-    Inputs:
-    - function: A python function that takes a list of elements to represent variables,
-                and outputs the defined function of those variables.
-    - init_variables: A list of values to evaluate the function at initially.
-    - max_iter: The max iterations the algorithm can run.
-    - learning_rate: The learning rate of the gradient decscent algorith.
-    - tol: Tolerence used for convergence criteria. When the function evaluation changes
-          by less than this tolerance the function finishes.
-    - b_1: ADAM optimizer hyperparameter controlling first moment term
-    - b_2: ADAM optimizer hyperparameter controlling second moment term
-    - error: ADAM optimizer hyperparameter preventing division by 0
- 
-    Outputs:
-    - A tuple of the optimal value and the and the inputs to the function that yielded
-      the value
-    """
-
-    #initialize 
-    val, der = auto_diff([function], init_variables)
-
-    curr_w = np.array(init_variables)
-    array_shape = curr_w.shape
-    diff = 1
-    
-    m, v, m_corr, v_corr = 0, 0, 0, 0
-    i = 0
-    
-    while i<max_iter and diff>tol:
         
-        m = b_1*m + (1-b_1)*der
-        m_corr = m/(1-np.power(b_1, (i+1)))
+class AdamOptimizer(Optimizer):
+    
+    def __init__(self, b_1=0.9, b_2=0.999, error=10e-8, learning_rate=0.1, max_iter = 1000, tol=1e-8):
+        """Initializes parameters for the Adam optimizer
+        
+        Arguments:
+        - b_1: ADAM optimizer hyperparameter controlling first moment term
+        - b_2: ADAM optimizer hyperparameter controlling second moment term
+        - error: ADAM optimizer hyperparameter preventing division by 0
+        """ 
+       
+        super().__init__(learning_rate=learning_rate, max_iter = max_iter, tol=tol)
+        self.m, self.v, self.m_corr, self.v_corr = 0, 0, 0, 0
+        self.b_1 = b_1
+        self.b_2 = b_2
+        self.error = error
+        
+    def _step(self):
+        """Defines the delta in independent variable values at a given step for the Adam optimizer."""
+        
+        self.m = self.b_1*self.m + (1-self.b_1)*self.prev_jacobians[-1]
+        self.m_corr = self.m/(1-np.power(self.b_1, self.i+1))
 
         
-        v = b_2*v + (1-b_2)*der**2
-        v_corr = v/(1-np.power(b_2, i+1))
+        self.v = self.b_2*self.v + (1-self.b_2)*self.prev_jacobians[-1]**2
+        self.v_corr = self.v/(1-np.power(self.b_2, self.i+1))
 
         # update derivative
-        delta_w = np.array(learning_rate*(m_corr/(np.sqrt(v_corr)+error))).reshape(array_shape)
-        curr_w = curr_w - delta_w
-
-        prev_val = val
-        val, der = auto_diff([function], curr_w)
-
-        i += 1
-        diff = np.abs(val - prev_val)
-
-
-    return val, curr_w
-
-                                       
-def adagrad(function, init_variables, learning_rate = 0.1, epsilon=1e-8, max_iter = 1000, tol = 1e-8):
-    """
-    Function that optimizes a python function via the adagrad algorithm. 
-  
-    Inputs:
-      - function: A python function that takes a list of elements to represent variables,
-                and outputs the defined function of those variables.
-      - init_variables: A list of values to evaluate the function at initially.
-      - max_iter: The max iterations the algorithm can run.
-      - learning_rate: The learning rate of the gradient decscent algorithm.
-      - epsilon: smoothing term that avoids division by zero. Should be resonably small.
+        return -np.array(self.learning_rate*(self.m_corr/(np.sqrt(self.v_corr)+self.error)))
+    
+class AdaGradOptimizer(Optimizer):
+    
+    def __init__(self, epsilon = 1e-8,  learning_rate=0.1, max_iter = 1000, tol=1e-8):
+        """Initializes parameters for the AdaGrad optimizer
+        
+        Arguments:
+        - epsilon: smoothing term that avoids division by zero. Should be resonably small.
                 default set to 1e-8
-      - tol: Tolerence used for convergence criteria. When the function evaluation changes
-          by less than this tolerance the function finishes.
-      
-      Outputs:
-      - A tuple of the optimal value and the and the inputs to the function that yielded
-      the value
-     """
-    # First, obtain the partial derivative of the objective function w.r.t. to the value parameter 
-    # Repeat this within the while loop 
-    value, jacobian = auto_diff([function], init_variables)
-    curr_w = np.array(init_variables)
-    array_shape = curr_w.shape
-    epsilon = epsilon
-    
-    # We then need to calculate the square of the partial derivative of each 
-    # variable and add them to the running sum of these values.
-    gradientsum = 0 
-    
-    # stopping variables
-    diff = 1
-    i = 0
+        """
+        super().__init__(learning_rate=learning_rate, max_iter = max_iter, tol=tol)
+        self.epsilon = epsilon
+        self.gradientsum = 0
+        
+    def _step(self):
+        """Defines the delta in independent variable values at a given step for the AdaGrad optimizer."""
 
-    while i<max_iter and diff>tol: 
         #calc delta
-        gradientsum = gradientsum + jacobian**2
-        delta_var = (learning_rate * jacobian) / np.sqrt(gradientsum + epsilon)
-        delta_var = delta_var.reshape(array_shape)
+        self.gradientsum = self.gradientsum + self.prev_jacobians[-1]**2
+        return -(self.learning_rate * self.prev_jacobians[-1]) / np.sqrt(self.gradientsum + self.epsilon)
         
-        #update weights
-        curr_w = curr_w - delta_var 
-            
-        prev_value = value
-        value, jacobian = auto_diff([function], curr_w)
-        
-        i += 1
-        diff = np.abs(value - prev_value)
 
-    return value, curr_w
-
-if __name__ == "__main__":
-    pass
