@@ -1,7 +1,7 @@
 # Introduction
-The main goal is to develop a software library where we can use computational methods to compute derivatives that would otherwise be costly or unstable to evaluate. Namely, we will implement automatic differentation (AD). We will implement foward mode in support of gradient based optimization methods. AD methods are more efficient than numerical and estimation techniques and are widely applicable across a range of fields.
+The main goal is to develop a software library where we can use computational methods to compute derivatives that would otherwise be costly or unstable to evaluate. Namely, we will implement automatic differentiation (AD). We will implement forward mode in support of gradient-based optimization methods. AD methods are more efficient than numerical and estimation techniques and are widely applicable across a range of fields.
 
-Our work is significant mainly in two aspects. Firstly, the client's need of computing derivative for real-world applications is high, which has been a long tradition in the applied sciences domains like mechanical engineering and mathematical physics. Moreover, the recent advances in data science and machine learning enables more sophisticated models like deep neural networks, whose large number of parameters require more efficient algorithm like back-propagation to compute and update the gradients. With our AD library, researchers in these fields will be able to efficiently compute the gradient through a simple and interactive user interface.
+Our work is significant mainly in two aspects. Firstly, the client's need for computing derivatives for real-world applications is high, which has been a long tradition in the applied sciences domains like mechanical engineering and mathematical physics. Moreover, the recent advances in data science and machine learning enable more sophisticated models like deep neural networks, whose large number of parameters require more efficient algorithms like back-propagation to compute and update the gradients. With our AD library, researchers in these fields will be able to efficiently compute the gradient through a simple and interactive user interface.
 
 Secondly, although many software packages support numerical approaches like Newton's method and finite-element method, they often lack numerical accuracy due to approximation and are computationally expensive. Our AD approach overcomes these issues by efficiently computing the exact, symbolic form of the derivative, which is crucial for real-world engineering problems.
 
@@ -42,7 +42,7 @@ In a multidimensional setting, g<sub>-m</sub>...<sub>0</sub> represent the indep
 
 ### Reverse Mode AD
 
-Altough not implemented within our package, understanding reverse mode is key to understanding AD. In order to instead calculate the partial derivatives of *f* with respect to the independent variable *x* and the intermediate dependent variables *g<sub>i</sub>* (for example, to determine the sensitivity of *f* to that particular intermdiate), one can traverse backwards through the graph. This derivative of *f* with respect to a particular *g<sub>i</sub>* is called the adjoint of *g<sub>i</sub>*. The reverse mode requires two passes:
+Although not implemented within our package,reviewing reverse mode is key to understanding AD. In order to instead calculate the partial derivatives of *f* with respect to the independent variable *x* and the intermediate dependent variables *g<sub>i</sub>* (for example, to determine the sensitivity of *f* to that particular intermediate), one can traverse backward through the graph. This derivative of *f* with respect to a particular *g<sub>i</sub>* is called the adjoint of *g<sub>i</sub>*. The reverse mode requires two passes:
 
 1. Forward pass: compute the primal trace (as above) and compute the partial derivatives of each child node with respect to its parent node. These (numeric) values have to be stored, which makes reverse mode more space intensive. 
 2. Reverse pass: the graph is traversed from outputs (*f*) towards inputs and each adjoint is calculated in succession using the stored values of the intermediate nodes and their partial derivatives.  
@@ -57,7 +57,7 @@ Importantly, the gradient of *f* computed by forward mode (the derivatives of *f
 
 Installing the package through PyPI is very simple, please follow the below steps in the terminal:
 
- 1. We reccomend creating a virtual environment. Here we use will use conda. If you do not have conda, follow these steps for [installation](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html). In the example below, `zapn_test` is the name for the virtual enviroment.
+ 1. We recommend creating a virtual environment. Here we use will use conda. If you do not have conda, follow these steps for [installation](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html). In the example below, `zapn_test` is the name for the virtual environment.
 
  ```
  $ conda create -n zapn_test python=3.6
@@ -78,7 +78,7 @@ Now, our package is installed. You can use `pip list` to check that your virtual
 
 To run and test the package locally, please follow the below steps in the terminal:
 
- 1. Once again we reccommend creating a virtual environment.
+ 1. Once again we recommend creating a virtual environment.
 
  ```
  $ conda create -n zapn_test python=3.6
@@ -90,7 +90,7 @@ $ conda activate zapn_test
  $ git clone https://github.com/cs107-zapn/cs107-FinalProject.git
  ```
 
- 4. Change directory to the project root directory and install the dependencies.
+ 4. Change the directory to the project root directory and install the dependencies.
  ```
  $ cd cs107-FinalProject
 $ pip install -r requirements.txt
@@ -107,7 +107,7 @@ Once again, you can use `pip list` to check that your virtual environment instal
 
 ### Strict Variable and Function Assignment
 
-There are two ways to implement forward mode AD. First, through strict defintion of the variables and functions. To implement forward mode, import the package, and then define your variable and function.
+There are two ways to implement forward mode AD. First, through strict definition of the variables and functions. To implement forward mode, import the package, and then define your variable and function.
 
 ```
 # Import the package
@@ -139,7 +139,7 @@ print(func.Jacobian())
 
 ### Using the `auto-diff` Function
 
-The second way to implement foward mode AD is through the `auto_diff` function.
+The second way to implement forward mode AD is through the `auto_diff` function.
 
 ```
 # Import the package
@@ -196,9 +196,10 @@ cs107-FinalProject/
 
 ### Modules
 
-Each module will server the following purpose:
+Each module will serve the following purpose:
  - overLoad.py - This module contains the code to overload all elementary functions.
  - dualNumbers.py - This module contains the abstract class for handling variables in different equations as dual numbers.
+ - optimizers.py - This module contains four different gradient-based optimizers included for the project extension.
 
 ### Test Suite
 
@@ -210,7 +211,7 @@ This will generate `coverage.xml` that contains the code coverage report.
 
 ### Distribution and Packaging 
 
-We plan to distribute our package via PyPi. The current version is availaible for distribution via github. The user can download and install the package manually by following the instructions in [Getting Started](#getting-started).
+The package is distributed via PyPi and github. The user can download and install the package by following the instructions in [Getting Started](#getting-started).
 
 ## Implementation 
 
@@ -220,8 +221,9 @@ To implicitly define a computational graph, we used the dual number data structu
 
 ### Classes
 
- - Variable - A class that mimics the behavior of a node in the computational graph. When initialized, a dual number class is a single variable with user specified value.
- - Variables - A class that contains several dual number classes based on user's specification. This is to handle the case when the objective function is multivariate. The number of dual numbers contained is the number of variables used to form the objective function. We will focus on implementing the multi-variable case in the future. 
+ - Variable - A class that mimics the behavior of a node in the computational graph. When initialized, a dual number class is a single variable with a user specified value.
+ - Variables - A class that contains several dual number classes based on user's specification. This is to handle the case when the objective function is multivariate. The number of dual numbers contained is the number of variables used to form the objective function.
+ - Functions - Abstract class that brings together Variable types to handle AD for vector inputs and vector outputs.
 
 
 ### Methods and Name Attributes
@@ -238,12 +240,27 @@ The Variable class contains the following dunder methods and attributes.
  - `__neg__(self)` allows us to use the `-` operator to negate a Variable object.
  - `__sub__(self, other)` subtracts the values and derivatives by creating a new dual number class with updated attributed.
  - `__rsub__(self, other)` handles the case of constant subtraction to dual number and ordering issues.
- - `__lt__(self, other)` handles the less than operator (`<`).
- - `__le__(self, other)` handles the less than or equal to operator (`<=`).
- - `__gt__(self, other)` handles the greater than operator (`>`).
- - `__ge__(self, other)` handles the greater than or equal to operator (`>=`).
- - `__eq__(self, other)` handles the equal to operator (`=`).
- - `__neq__(self, other)` handles the not equal to than operator (`!=`).
+ - `__lt__(self, other)` handles 'the less than' operator (`<`).
+ - `__le__(self, other)` handles 'the less than or equal to' operator (`<=`).
+ - `__gt__(self, other)` handles 'the greater than' operator (`>`).
+ - `__ge__(self, other)` handles the 'greater than or equal to' operator (`>=`).
+ - `__eq__(self, other)` handles the 'equal to' operator (`=`).
+ - `__neq__(self, other)` handles the 'not equal to' operator (`!=`).
+
+The Variable class contains the following methods:
+
+- `__init__(self, n_inputs)` initialize the current number of input variables (x, y, z, ...)
+- `__len__(self)` Returns the number of input variables.
+- `__iter__(self)` Helper method to make a Variables instance iterable.
+- `__getitem__(self, key)` Helper method to make a Variable instance subscribable  by index.
+- `set_values(self, values)` This method allows the user to set the values for all input variables.
+
+The Functions class contains the following methods:
+
+- `__init__(self, Fs)` allows the user to initialize the abstract class with a list of variable objects (functions).
+- `__len__(self)` returns the length of the functions
+- `values(self)` returns the values of each output.
+- `Jacobian(self)` computes the Jacobian matrix. This is forward mode AD!
  
 ### Elementary Functions
 
@@ -278,11 +295,58 @@ In our package, we implement automatic differentiation to drive four different g
 
 ### How to Use zapnAD Optimization
 
-Did we change this?
+Using each optimizer is easy instantiating the desired optimization method, and calling the optimize method! The example below minimizes the function $f(x) = x^2$.
 
 ```
+# Import zapnAD
+import zapnAD as ad
+
+# Define Objective function
+function = lambda v: v[0]**2
+
+# Instantiate optimizer
+gd = GradientDescentOptimizer()
+
+# Run optimization!
+# Note: always pass a single function and the intialization values in a list!
+min_value, grad = gd.optimize(function, [1])
+
+# View the local minimum!
+print(min_value)
+
+# View the gradient at the local minimum!
+print(grad)
+```
+You can even optimize multivariate functions! See the example below.
 
 ```
+# Import zapnAD
+import zapnAD as ad
+
+# Define Objective function
+function = lambda v: v[0]**2 + 2*v[1]**2 + 3
+
+# Instantiate optimizer
+adam = AdamOptimizer()
+
+# Run optimization!
+# Note: always pass a single function and the intialization values in a list!
+min_value, grad = adam.optimize(function, [1,1])
+
+# View the local minimum!
+print(min_value)
+
+# View the jacobian at the local minimum!
+print(grad)
+```
+We included four optimizers in the package extension:
+- `GradientDescentOptimizer()`
+- `MomentumOptimizer()` 
+- `AdaGradOptimizer()`
+- `AdamOptimizer()`
+
+Like in the examples above, calling the `optimize()` with inputs of a function and a list of initialization variables will optimize said function according to the optimization class.
+
 ## Broader Impact
 
 Zapn-AD creates computationally efficient methods for finding derivatives and optimizing functions. While many stakeholders in the science, engineering, and business field can benefit from less costly and accurate optimization, the user assumes some uncertainty when implementing Zapn-AD. We designed our software to be as precise and efficient as possible, and it is critical to discuss the further reaching impacts of our work both positive or negative.
@@ -303,7 +367,7 @@ In terms of applications, future releases should include many more optimization 
 
 ## Licensing
 
-This software is licensed under the GNU General Public License. This Copyleft license allows users to use and modify our software and, as stated on the GNU GPL website, says that "anyone who redistributes the software, with or without changes, must pass along the freedom to further copy and change it." As beneficiaries of free software, we would like to makes ours free as well. 
+This software is licensed under the GNU General Public License. This Copyleft license allows users to use and modify our software and, as stated on the GNU GPL website, says that "anyone who redistributes the software, with or without changes, must pass along the freedom to further copy and change it." As beneficiaries of free software, we would like to make ours free as well. 
 
 More on this particular license can be found here: https://www.gnu.org/licenses/gpl-3.0.html
 
