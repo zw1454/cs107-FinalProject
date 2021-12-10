@@ -152,6 +152,7 @@ function = lambda v: v[0]**2 + v[1]**2
 values = [2,2]
 
 # Call the AD function
+# Note: The function must always be passed in a list!
 values, jacobian = ad.auto_diff([function], values)
 
 # You can also pass vector functions to auto_diff as a list
