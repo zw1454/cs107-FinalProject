@@ -3,10 +3,10 @@ from distutils.core import setup
 setup(
   name = 'zapnAD',         
   packages = ['zapnAD'],
-  version = '0.3',
+  version = '1.0',
   license='GPL-3.0',
   description = 'A package for automatic differentiation', 
-  url = 'https://github.com/cs107-zapn/cs107-FinalProject/tree/main',
+  url = 'https://github.com/cs107-zapn/cs107-FinalProject',
   download_url = 'https://github.com/cs107-zapn/cs107-FinalProject/archive/refs/tags/v.03.tar.gz',    # I explain this later on
   keywords = ['optimization', 'autodifferntiation'], 
   install_requires=[         
