@@ -1,7 +1,7 @@
 ## Introduction
 The main goal is to develop a software library where we can use computational methods to compute derivatives that would otherwise be costly or unstable to evaluate. Namely, we will implement automatic differentation (AD). We will implement both the forward mode and also the reverse mode. AD methods are more efficient than numerical and estimation techniques and, as was discussed in lecture, are widely applicable across a range of fields.
 
-Our work is significant mainly in two aspects. Firstly, the client's need of computing derivative for real-world applications is high, which has been a long tradtion in the applied sciences domains like mechanical engineering and mathematical physics. Moreover, the recent advances in data science and machine learning enables more sophisticated models like deep neural networks, whose large number of parameters require more efficient algorithm like back-propagation to compute and update the gradients. With our AD library, researchers in these fields will be able to efficiently compute the gradient through a simple and interactive user interface.
+Our work is significant mainly in two aspects. Firstly, the client's need of computing derivative for real-world applications is high, which has been a long tradition in the applied sciences domains like mechanical engineering and mathematical physics. Moreover, the recent advances in data science and machine learning enables more sophisticated models like deep neural networks, whose large number of parameters require more efficient algorithm like back-propagation to compute and update the gradients. With our AD library, researchers in these fields will be able to efficiently compute the gradient through a simple and interactive user interface.
 
 Secondly, although many software packages support numerical approaches like Newton's method and finite-element method, they often lack numerical accuracy due to approximation and are computationally expensive. Our AD approach overcomes these issues by efficiently computing the exact, symbolic form of the derivative, which is crucial for real-world engineering problems.
 
@@ -85,35 +85,34 @@ Now, our package is installed. You can use `pip list` to check that your virtual
 
 ### Using Forward Mode
 
-To implement forward mode on a scalar function of a scalar import the package import the package, define your variable and function.
+To implement forward mode, import the package, and then define your variable and function.
 
 ```
-#import the package
+# Import the package
 import zapnAD as ad
 
-#Now x is a variable you can use to define your function.
-#The value passed into variable is it's value
-x = ad.Variable(10)
+# Initialize input variables
+variables = ad.Variables(n_inputs=2)
+variables.set_values([3, 1])
+x, y = variables[0], variables[1]
 
-#Lets try a basic function
-func = x**2
-
-#Print the derivative of func evaluated at 10
-print(func.der)
+# Define the objective function
+function = ad.Function(Fs=[x*y, x ** 2, x + y]) # 2 inputs, 3 outputs
+print(function.values())
+print(function.Jacobian()) # 3 by 2 matrix
 ```
 
 We also overloaded elementary trig. functions and exponential functions. You can implement them as follows.
 
 ```
-#define variable with value 1
-y = ad.Variable(1)
+# Define variable with value 1
+y = ad.Variables(n_inputs=1).set_values([1])[0]
 
-#use an exponential function to define the function
-func = y**2 + ad.exp(y)
+# Use an exponential function to define the objective function
+func = ad.Function([y**2 + ad.exp(y)])
 
-#view dervative of func evaluated at 1
-print(func.der)
-
+# View Jacobian evaluated at 1
+print(func.Jacobian())
 ```
 
 
@@ -207,7 +206,7 @@ To have trig. and other key elementary functions work on our dual number objects
 
 For the elementary functions overloaded, `x` can be of type Variable, integer, or float.
 
- ### Dependencies
+### Dependencies
 
 We have a dependency built on [numpy](https://numpy.org/). In this release, we issued a `requirements.txt` file which contains the dependency, and allows the user to install the package.
  

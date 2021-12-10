@@ -2,7 +2,8 @@
 
 tests=(
     test_dualNumber.py
-    test_overload.py)
+    test_overload.py
+    test_optimizers.py)
 
 # decide what driver to use (depending on arguments given)
 unit='-m unittest'

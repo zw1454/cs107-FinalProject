@@ -19,3 +19,5 @@ wheels/
 *.manifest 
 *.spec 
 build/
+.Rhistory
+.ipynb_checkpoints
