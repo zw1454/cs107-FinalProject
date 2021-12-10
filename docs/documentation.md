@@ -295,7 +295,7 @@ In our package, we implement automatic differentiation to drive four different g
 
 ### How to Use zapnAD Optimization
 
-Using each optimizer is easy instantiating the desired optimization method, and calling the optimize method! The example below minimizes the function $f(x) = x^2$.
+Using each optimizer is easy instantiating the desired optimization method, and calling the optimize method! The example below minimizes the function <img src="https://render.githubusercontent.com/render/math?math=f(x) = x^2">.
 
 ```
 # Import zapnAD
