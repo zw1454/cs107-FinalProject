@@ -1,4 +1,4 @@
-from dualNumbers import *
+from .dualNumbers import *
 import numpy as np
 
 __all__ = ['gradient_decent', 'momentum_gd', 'adam', 'adagrad']
