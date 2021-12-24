@@ -1,12 +1,10 @@
-# Group #21 Automatic Differentiation 
+# zapnAD: A Package for Automatic Differentiation 
 ![build](https://github.com/cs107-zapn/cs107-FinalProject/actions/workflows/github-actions-demo.yml/badge.svg?branch=final)[![codecov](https://codecov.io/gh/cs107-zapn/cs107-FinalProject/branch/final/graph/badge.svg?token=AZN0X1SRCU)](https://codecov.io/gh/cs107-zapn/cs107-FinalProject)
 
-CS107 Project Team ZAPN
-
-Group Members:
+Contributors:
 - Priya	Veeraraghavan	pveeraraghavan@g.harvard.edu
-- Arno	Cai	aycai@hsph.harvard.edu
 - Zheng	Wang	zheng_wang@fas.harvard.edu
+- Arno	Cai	aycai@hsph.harvard.edu
 - Nico	Manzonelli	nico.manzonelli@g.harvard.edu
 
 # Introduction
